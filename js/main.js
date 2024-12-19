@@ -101,7 +101,7 @@ function loadPlaylist() {
         .then(response => {
             if (!response.ok) {
                 // 如果失败，尝试从项目内的 music 文件夹加载
-                return fetch('music/playlist.json');
+                return fetch('music/music/playlist.json');
             }
             return response;
         })
