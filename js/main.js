@@ -34,12 +34,14 @@ function updateLocation() {
         navigator.geolocation.getCurrentPosition(async (position) => {
             try {
                 // 使用高德地图API逆地理编码
-                const response = await fetch(`https://restapi.amap.com/v3/geocode/regeo?key=78b3b30f1675e9093e37aab388fc06c1&location=${position.coords.longitude},${position.coords.latitude}&extensions=base&output=json`);
+                const response = await fetch(`https://restapi.amap.com/v3/geocode/regeo?key=9f7eb1d2c34d3c25e93792fbc3a4b2fc&location=${position.coords.longitude},${position.coords.latitude}&extensions=base&output=json`);
                 const data = await response.json();
                 
                 if (data.status === '1') {
                     const addressComponent = data.regeocode.addressComponent;
-                    location = `${addressComponent.country}·${addressComponent.city || addressComponent.province}`;
+                    location = `${addressComponent.country}·${addressComponent.province}·${data.regeocode.formatted_address}`;
+                } else {
+                    console.log('高德地图API返回错误:', data.info);
                 }
             } catch (error) {
                 console.log('获取位置信息失败:', error);
@@ -50,6 +52,7 @@ function updateLocation() {
             locationElement.textContent = location;
         });
     } else {
+        console.log('浏览器不支持地理定位');
         locationElement.textContent = location;
     }
 }
