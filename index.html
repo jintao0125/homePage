@@ -11,6 +11,23 @@
 <body>
     <div class="wrapper">
         <section class="left">
+            <div class="music-player">
+                <audio id="audio" crossorigin="anonymous"></audio>
+                <div class="player-controls">
+                    <div class="song-info">
+                        <div id="song-title">未播放</div>
+                        <div id="song-artist">未知歌手</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progress"></div>
+                    </div>
+                    <div class="control-buttons">
+                        <button id="prev-btn">上一首</button>
+                        <button id="play-btn">播放</button>
+                        <button id="next-btn">下一首</button>
+                    </div>
+                </div>
+            </div>
         </section>
         <section class="right">
             <div class="index_box">
@@ -40,6 +57,8 @@
                     </a>
                 </div>
             </div>
+            <!-- 移动端播放器容器 -->
+            <div class="mobile-player"></div>
             <footer class="right_foot">
                 <p class="beian">
                     <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备2023018843号-1</a>
