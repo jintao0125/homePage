@@ -179,8 +179,8 @@ body, html {
 }
 
 .nav-icon {
-    width: 40px;            /* 进一步增大图标尺寸 */
-    height: 40px;
+    width: 50px;            /* 进一步增大图标尺寸 */
+    height: 50px;
     object-fit: contain;
 }
 
@@ -200,12 +200,78 @@ body, html {
 
 /* Valorant图标的专用样式 */
 .icon-link-no-label[href*="gamersky"] {
-    padding: 4px;
+    padding: 0px;
 }
 
 .icon-link-no-label[href*="gamersky"] .nav-icon {
-    width: 42px;
-    height: 42px;
-    object-fit: contain;
+    width: 50px;             /* 增大尺寸 */
+    height: 50px;
+    object-fit: cover;       /* 改用cover以填充更饱满 */
+    border-radius: 10px;     /* 调整圆角 */
     margin: 0;
+    padding: 0;
+}
+
+/* 准星图标的专用样式 */
+.icon-link-no-label[href*="vcrdb"] {
+    padding: 0px;
+    background-color: rgba(0, 0, 0, 0.92);  /* 黑色背景 */
+}
+
+.icon-link-no-label[href*="vcrdb"] .nav-icon {
+    width: 45px;             /* 适当调整尺寸 */
+    height: 45px;
+    object-fit: contain;     /* 保持图片比例 */
+    border-radius: 10px;     /* 保持圆角 */
+    margin: 2.5px;          /* 居中显示 */
+    filter: brightness(1.2); /* 略微提高亮度，使图标在黑色背景上更清晰 */
+}
+
+.icon-link-no-label[href*="vcrdb"]:hover {
+    background-color: rgba(0, 0, 0, 0.98);  /* 悬停时的黑色背景 */
+}
+
+/* 准星和WA图标的共享样式 */
+.icon-link-no-label[href*="vcrdb"],
+.icon-link-no-label[href*="group.jintao"] {    /* 修改选择器以匹配WA图标的链接 */
+    padding: 0px;
+    background-color: rgba(0, 0, 0, 0.92);
+}
+
+.icon-link-no-label[href*="vcrdb"] .nav-icon,
+.icon-link-no-label[href*="group.jintao"] .nav-icon {    /* 修改选择器以匹配WA图标的链接 */
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+    border-radius: 10px;
+    margin: 2.5px;
+    filter: brightness(1.2);
+}
+
+.icon-link-no-label[href*="vcrdb"]:hover,
+.icon-link-no-label[href*="group.jintao"]:hover {    /* 修改选择器以匹配WA图标的链接 */
+    background-color: rgba(0, 0, 0, 0.98);
+}
+
+/* WA图标的专用样式 */
+.icon-link-no-label[href*="group.jintao"] {
+    padding: 0px;
+    background-color: rgba(0, 0, 0, 0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-link-no-label[href*="group.jintao"] .nav-icon {
+    width: 85px;             /* 增加尺寸 */
+    height: 85px;
+    object-fit: contain;
+    border-radius: 10px;
+    margin: 1px;
+    margin-left: 35px;       /* 向右偏移 */
+    filter: brightness(1.2);
+}
+
+.icon-link-no-label[href*="group.jintao"]:hover {
+    background-color: rgba(0, 0, 0, 0.98);
 }
