@@ -1,0 +1,211 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+.left {
+    width: 67%;  /* 调整为约2/3宽度 */
+    background-image: url('../images/left.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: fixed;  /* 固定定位 */
+    left: 0;
+    top: 0;
+    height: 100vh;   /* 铺满整个视口高度 */
+    z-index: -1;     /* 置于底层 */
+    transition: background-image 1s ease-in-out;  /* 只保留背景图片过渡 */
+}
+
+.right {
+    width: 33%;  /* 调整为约1/3宽度 */
+    margin-left: 67%;  /* 对应左侧宽度 */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 40px;
+    box-sizing: border-box;
+    position: relative;  /* 相对定位 */
+    background-color: rgba(255, 255, 255, 0.8);  /* 恢复半透明背景色 */
+    transition: none;  /* 移除过渡效果 */
+    background-image: url('../images/right.png');  /* 添加背景图 */
+    background-size: 100% 100%;    /* 改为完全填充 */
+    background-position: center;    /* 居中显示 */
+    background-repeat: no-repeat;
+}
+
+.right::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    backdrop-filter: blur(8px);    /* 增加模糊度 */
+    background-color: rgba(255, 255, 255, 0.85);  /* 调整透明度 */
+    z-index: -1;
+}
+
+.index_box {
+    text-align: center;
+}
+
+.index_box h1 {
+    font-size: 24px;
+    color: #333;
+    margin: 15px 0;
+    font-weight: 600;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+}
+
+.index_box p {
+    font-size: 16px;
+    color: #666;
+    margin: 10px 0;
+    padding: 8px 15px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    display: inline-block;
+}
+
+.zuobiao {
+    font-size: 14px;
+    color: #666;
+    margin: 10px 0 20px;
+    padding: 6px 12px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 4px;
+    display: inline-block;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.index_nav {
+    list-style: none;
+    padding: 0;
+    margin-top: 25px;
+}
+
+.index_nav li {
+    margin: 15px 0;
+}
+
+.index_nav a {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+.index_nav a:hover {
+    color: #007bff;
+}
+
+.right_foot {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+}
+
+.beian {
+    margin-top: 15px;
+    position: relative;
+    z-index: 1;
+}
+
+.beian a {
+    color: #333;          /* 加深文字颜色 */
+    text-decoration: none;
+    font-size: 14px;      /* 增大字体 */
+    font-weight: 500;     /* 增加字重 */
+    padding: 8px 12px;    /* 增加内边距 */
+    background-color: rgba(255, 255, 255, 0.9);  /* 添加半透明背景 */
+    border-radius: 4px;   /* 添加圆角 */
+    transition: all 0.3s;
+}
+
+.beian a:hover {
+    color: #007bff;
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.avatar {
+    max-width: 120px;
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.icon-nav {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.icon-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50px;             /* 固定宽度 */
+    height: 50px;           /* 固定高度，与宽度相等 */
+    padding: 2px;           /* 进一步减小内边距 */
+    background-color: rgba(255, 255, 255, 0.92);
+    border-radius: 10px;     /* 调整圆角 */
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.icon-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);  /* 增加悬停时的阴影 */
+    background-color: rgba(255, 255, 255, 0.98);
+}
+
+.icon-label {
+    font-size: 8px;         /* 更小的字体 */
+    color: #555;
+    margin-top: 0px;        /* 最小化顶部间距 */
+    font-weight: 500;
+}
+
+.nav-icon {
+    width: 40px;            /* 进一步增大图标尺寸 */
+    height: 40px;
+    object-fit: contain;
+}
+
+.icon-link-no-label {
+    padding: 2px;             /* 与其他图标使用相同的内边距 */
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.92);  /* 使用相同的背景色 */
+}
+
+.icon-link-no-label .nav-icon {
+    width: 160px;            /* 与其他图标使用相同的尺寸 */
+    height: 160px;
+    border-radius: 0;       /* 移除圆角 */
+    margin-top: -10px;        /* 最小化顶部间距 */
+    object-fit: contain;    /* 使用contain保持比例 */
+}
+
+/* Valorant图标的专用样式 */
+.icon-link-no-label[href*="gamersky"] {
+    padding: 4px;
+}
+
+.icon-link-no-label[href*="gamersky"] .nav-icon {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+    margin: 0;
+}
