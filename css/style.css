@@ -1,448 +1,343 @@
-body, html {
+/* ============================================================
+   jintao 的主页 — 参考 imsyy/home 风格重构
+   结构：全屏背景 + 居中毛玻璃卡片 + 常用站点列表
+   ============================================================ */
+
+:root {
+    --card-bg: rgba(255, 255, 255, 0.72);
+    --card-border: rgba(255, 255, 255, 0.5);
+    --text-main: #2c3e50;
+    --text-sub: #6b7c8c;
+    --accent: #007bff;
+    --radius: 18px;
+    --blur: 16px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
     margin: 0;
     padding: 0;
-    height: 100%;
+    min-height: 100%;
 }
 
-.wrapper {
-    display: flex;
-    min-height: 100vh;
+body {
+    font-family: "HarmonyOS Sans SC", "PingFang SC", "Microsoft YaHei",
+        "Noto Sans SC", -apple-system, sans-serif;
+    color: var(--text-main);
+    -webkit-font-smoothing: antialiased;
 }
 
-.left {
-    width: 67%;  /* 调整为约2/3宽度 */
-    background-image: url('../images/left.png');
+/* ---------- 背景层 ---------- */
+.bg-layer {
+    position: fixed;
+    inset: 0;
+    background-image: url('../images/right.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    position: fixed;  /* 固定定位 */
-    left: 0;
-    top: 0;
-    height: 100vh;   /* 铺满整个视口高度 */
-    z-index: 0;     /* 将 z-index 从 -1 改为 0 */
-    transition: background-image 1s ease-in-out;  /* 只保留背景图片过渡 */
-    background-color: rgba(0, 0, 0, 0.9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    z-index: 0;
 }
 
-.music-player {
-    width: 80%;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-    position: relative; /* 添加 position: relative */
-    z-index: 1;         /* 添加 z-index: 1 */
-}
-
-.player-controls {
-    color: white;
-    text-align: center;
-}
-
-.song-info {
-    margin-bottom: 20px;
-}
-
-#song-title {
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-
-#song-artist {
-    font-size: 16px;
-    color: #ccc;
-}
-
-.progress-bar {
-    width: 100%;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 2px;
-    margin: 20px 0;
-    cursor: pointer;
-}
-
-#progress {
-    width: 0;
-    height: 100%;
-    background: #007bff;
-    border-radius: 2px;
-    transition: width 0.1s linear;
-}
-
-.control-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-.control-buttons button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.control-buttons button:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
-
-.right {
-    width: 33%;  /* 调整为约1/3宽度 */
-    margin-left: 67%;  /* 对应左侧宽度 */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 40px;
-    box-sizing: border-box;
-    position: relative;  /* 相对定位 */
-    background-color: rgba(255, 255, 255, 0.8);  /* 恢复半透明背景色 */
-    transition: none;  /* 移除过渡效果 */
-    background-image: url('../images/right.png');  /* 添加背景图 */
-    background-size: 100% 100%;    /* 改为完全填充 */
-    background-position: center;    /* 居中显示 */
-    background-repeat: no-repeat;
-}
-
-.right::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    backdrop-filter: blur(8px);    /* 增加模糊度 */
-    background-color: rgba(255, 255, 255, 0.85);  /* 调整透明度 */
-    z-index: -1;
-}
-
-.index_box {
-    text-align: center;
-}
-
-.index_box h1 {
-    font-size: 24px;
-    color: #333;
-    margin: 15px 0;
-    font-weight: 600;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
-}
-
-.index_box p {
-    font-size: 16px;
-    color: #666;
-    margin: 10px 0;
-    padding: 8px 15px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 4px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    display: inline-block;
-}
-
-.zuobiao {
-    font-size: 14px;
-    color: #666;
-    margin: 10px 0 20px;
-    padding: 6px 12px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 4px;
-    display: inline-block;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-}
-
-.index_nav {
-    list-style: none;
-    padding: 0;
-    margin-top: 25px;
-}
-
-.index_nav li {
-    margin: 15px 0;
-}
-
-.index_nav a {
-    text-decoration: none;
-    color: #333;
-    font-size: 16px;
-    transition: color 0.3s;
-}
-
-.index_nav a:hover {
-    color: #007bff;
-}
-
-.right_foot {
-    text-align: center;
-    color: #666;
-    font-size: 14px;
-}
-
-.beian {
-    margin-top: 15px;
-    position: relative;
+/* 暗化遮罩，保证卡片文字可读性 */
+.bg-mask {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.25);
     z-index: 1;
 }
 
-.beian a {
-    color: #333;          /* 加深文字颜色 */
-    text-decoration: none;
-    font-size: 14px;      /* 增大字体 */
-    font-weight: 500;     /* 增加字重 */
-    padding: 8px 12px;    /* 增加内边距 */
-    background-color: rgba(255, 255, 255, 0.9);  /* 添加半透明背景 */
-    border-radius: 4px;   /* 添加圆角 */
-    transition: all 0.3s;
-}
-
-.beian a:hover {
-    color: #007bff;
-    background-color: rgba(255, 255, 255, 1);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.avatar {
-    max-width: 120px;
-    width: 100%;
-    height: auto;
-    border-radius: 50%;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.icon-nav {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-.icon-link {
+/* ---------- 载入动画 ---------- */
+.loader {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 50px;             /* 固定宽度 */
-    height: 50px;           /* 固定高度，与宽度相等 */
-    padding: 2px;           /* 进一步减小内边距 */
-    background-color: rgba(255, 255, 255, 0.92);
-    border-radius: 10px;     /* 调整圆角 */
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-.icon-link:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);  /* 增加悬停时的阴影 */
-    background-color: rgba(255, 255, 255, 0.98);
-}
-
-.icon-label {
-    font-size: 8px;         /* 更小的字体 */
-    color: #555;
-    margin-top: 0px;        /* 最小化顶部间距 */
-    font-weight: 500;
-}
-
-.nav-icon {
-    width: 50px;            /* 进一步增大图标尺寸 */
-    height: 50px;
-    object-fit: contain;
-}
-
-.icon-link-no-label {
-    padding: 2px;             /* 与其他图标使用相同的内边距 */
     justify-content: center;
-    background-color: rgba(255, 255, 255, 0.92);  /* 使用相同的背景色 */
+    gap: 20px;
+    background: rgba(20, 25, 35, 0.96);
+    color: #fff;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
 }
 
-.icon-link-no-label .nav-icon {
-    width: 160px;            /* 与其他图标使用相同的尺寸 */
-    height: 160px;
-    border-radius: 0;       /* 移除圆角 */
-    margin-top: -10px;        /* 最小化顶部间距 */
-    object-fit: contain;    /* 使用contain保持比例 */
+.loader.done {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
 }
 
-/* Valorant图标的专用样式 */
-.icon-link-no-label[href*="gamersky"] {
-    padding: 0px;
+.loader-spinner {
+    width: 42px;
+    height: 42px;
+    border: 3px solid rgba(255, 255, 255, 0.25);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
 }
 
-.icon-link-no-label[href*="gamersky"] .nav-icon {
-    width: 50px;             /* 增大尺寸 */
-    height: 50px;
-    object-fit: cover;       /* 改用cover以填充更饱满 */
-    border-radius: 10px;     /* 调整圆角 */
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loader-text {
     margin: 0;
-    padding: 0;
+    font-size: 15px;
+    letter-spacing: 2px;
+    opacity: 0.85;
 }
 
-/* 准星图标的专用样式 */
-.icon-link-no-label[href*="vcrdb"] {
-    padding: 0px;
-    background-color: rgba(0, 0, 0, 0.92);  /* 黑色背景 */
+/* ---------- 页面布局 ---------- */
+.page {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px 16px;
 }
 
-.icon-link-no-label[href*="vcrdb"] .nav-icon {
-    width: 45px;             /* 适当调整尺寸 */
-    height: 45px;
-    object-fit: contain;     /* 保持图片比例 */
-    border-radius: 10px;     /* 保持圆角 */
-    margin: 2.5px;          /* 居中显示 */
-    filter: brightness(1.2); /* 略微提高亮度，使图标在黑色背景上更清晰 */
+.card {
+    width: 100%;
+    max-width: 460px;
+    padding: 36px 32px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    backdrop-filter: blur(var(--blur));
+    -webkit-backdrop-filter: blur(var(--blur));
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+    text-align: center;
+    animation: card-in 0.7s ease both;
 }
 
-.icon-link-no-label[href*="vcrdb"]:hover {
-    background-color: rgba(0, 0, 0, 0.98);  /* 悬停时的黑色背景 */
+@keyframes card-in {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-/* 准星和WA图标的共享样式 */
-.icon-link-no-label[href*="vcrdb"],
-.icon-link-no-label[href*="group.jintao"] {    /* 修改选择器以匹配WA图标的链接 */
-    padding: 0px;
-    background-color: rgba(0, 0, 0, 0.92);
+/* ---------- 用户信息 ---------- */
+.user .avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
 }
 
-.icon-link-no-label[href*="vcrdb"] .nav-icon,
-.icon-link-no-label[href*="group.jintao"] .nav-icon {    /* 修改选择器以匹配WA图标的链接 */
-    width: 45px;
-    height: 45px;
-    object-fit: contain;
+.user .name {
+    margin: 14px 0 4px;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.user .greeting {
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-sub);
+}
+
+/* ---------- 时间 ---------- */
+.time-box {
+    margin: 18px 0 6px;
+}
+
+.clock {
+    display: block;
+    font-size: 34px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 2px;
+}
+
+.date {
+    display: block;
+    margin-top: 4px;
+    font-size: 13px;
+    color: var(--text-sub);
+}
+
+/* ---------- 一言 ---------- */
+.hitokoto {
+    margin: 16px 0;
+    padding: 14px 16px;
+    background: rgba(255, 255, 255, 0.55);
     border-radius: 10px;
-    margin: 2.5px;
-    filter: brightness(1.2);
 }
 
-.icon-link-no-label[href*="vcrdb"]:hover,
-.icon-link-no-label[href*="group.jintao"]:hover {    /* 修改选择器以匹配WA图标的链接 */
-    background-color: rgba(0, 0, 0, 0.98);
+.hitokoto-text {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-main);
 }
 
-/* WA图标的专用样式 */
-.icon-link-no-label[href*="group.jintao"] {
-    padding: 0px;
-    background-color: rgba(0, 0, 0, 0.92);
+.hitokoto-from {
+    margin: 6px 0 0;
+    font-size: 12px;
+    color: var(--text-sub);
+    text-align: right;
+}
+
+/* ---------- 天气 / 位置 ---------- */
+.info-row {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    font-size: 13px;
+    color: var(--text-sub);
+    flex-wrap: wrap;
+}
+
+.info-row .location {
+    padding: 4px 12px;
+    background: rgba(255, 255, 255, 0.55);
+    border-radius: 999px;
+}
+
+/* ---------- 时光进度条 ---------- */
+.year-progress {
+    margin: 18px 0 6px;
+}
+
+.yp-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-sub);
+    margin-bottom: 6px;
+}
+
+.yp-bar {
+    height: 8px;
+    background: rgba(0, 0, 0, 0.12);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.yp-fill {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #007bff, #00c6ff);
+    border-radius: 4px;
+    transition: width 1s ease;
+}
+
+/* ---------- 网站列表（并排小图标卡） ---------- */
+.sites {
+    margin-top: 22px;
+    text-align: left;
+}
+
+.sites-title {
+    margin: 0 0 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-sub);
+    letter-spacing: 2px;
+}
+
+.site-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.site-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    min-width: 58px;
+    padding: 10px 10px 8px;
+    background: rgba(255, 255, 255, 0.55);
+    border-radius: 12px;
+    color: var(--text-main);
+    text-decoration: none;
+    transition: background 0.25s, transform 0.2s;
+}
+
+.site-link:hover {
+    background: rgba(255, 255, 255, 0.85);
+    transform: translateY(-2px);
+}
+
+.site-icon {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: rgba(0, 123, 255, 0.12);
+    color: var(--accent);
+    flex-shrink: 0;
 }
 
-.icon-link-no-label[href*="group.jintao"] .nav-icon {
-    width: 85px;             /* 增加尺寸 */
-    height: 85px;
-    object-fit: contain;
-    border-radius: 10px;
-    margin: 1px;
-    margin-left: 35px;       /* 向右偏移 */
-    filter: brightness(1.2);
+.site-name {
+    white-space: nowrap;
+    font-size: 11px;
+    color: var(--text-sub);
 }
 
-.icon-link-no-label[href*="group.jintao"]:hover {
-    background-color: rgba(0, 0, 0, 0.98);
+/* ---------- 备案 footer ---------- */
+.footer {
+    margin-top: 18px;
+    padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* 移动设备适配 */
-@media screen and (max-width: 768px) {
-    .left {
-        display: none;  /* 隐藏左侧区域 */
-    }
-    
-    .right {
-        width: 100%;   /* 右侧占满全屏 */
-        margin-left: 0;
-        padding: 20px;
-        padding-bottom: 0; /* 移除底部留白 */
+.footer a {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    padding: 6px 14px;
+    background: rgba(0, 0, 0, 0.35);
+    border-radius: 999px;
+    transition: background 0.3s;
+}
+
+.footer a:hover {
+    background: rgba(0, 0, 0, 0.55);
+}
+
+/* ---------- 移动端适配（单套 DOM，纯 CSS 切换） ---------- */
+@media (max-width: 768px) {
+    .page {
+        padding: 20px 14px 12px;
+        justify-content: flex-start;
     }
 
-    .icon-nav {
-        flex-wrap: wrap;  /* 图标自动换行 */
-        gap: 15px;
+    .card {
+        max-width: 100%;
+        padding: 28px 20px;
     }
 
-    /* 移动端播放器样式 */
-    .music-player {
-        width: 100%;
-        margin: 20px 0;
-        background: transparent; /* 修改背景为透明 */
-        position: static;
-        bottom: auto;
-        left: auto;
-        right: auto;
-        z-index: auto;
-        padding: 15px;
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+    .clock {
+        font-size: 28px;
     }
+}
 
-    .mobile-player .music-player {
-        width: 100%;
-        margin: 20px 0;
-        padding: 15px;
-        background: transparent; /* 修改背景为透明 */
-        border-radius: 15px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    }
-
-    .mobile-player .player-controls {
-        color: #333; /* 修改文本颜色为深色 */
-        text-align: center;
-    }
-
-    .mobile-player .control-buttons {
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-    }
-
-    .mobile-player .control-buttons button {
-        padding: 8px 15px;
-        font-size: 14px;
-    }
-
-    .mobile-player #song-title {
-        font-size: 18px;
-    }
-
-    .mobile-player #song-artist {
-        font-size: 14px;
-    }
-
-    .mobile-player {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 100;
-    }
-
-    .mobile-player .music-player {
-        width: 100%;
-        margin: 0;
-        padding: 15px;
-        border-radius: 15px 15px 0 0;
-        background: transparent; /* 修改背景为透明 */
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
-    }
-
-    .mobile-player .control-buttons button {
-        padding: 8px 15px;
-        font-size: 14px;
-    }
-
-    .mobile-player #song-title {
-        font-size: 18px;
-    }
-
-    .mobile-player #song-artist {
-        font-size: 14px;
-    }
-
-    /* 为固定定位的播放器留出空间 */
-    .right {
-        padding-bottom: 180px;
+/* 尊重系统减少动态效果设置 */
+@media (prefers-reduced-motion: reduce) {
+    .card,
+    .loader,
+    .yp-fill,
+    .site-link {
+        transition: none;
+        animation: none;
     }
 }

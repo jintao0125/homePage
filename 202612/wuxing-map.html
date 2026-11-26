@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>柳州五星商圈 · 路口四角平面图</title>
+<style>
+:root{
+  --map-bg:#eaf4fb;--map-water:#cfe6f7;--map-road:#fff;--map-block:#dbe7f0;
+  --map-line:#a8c6dc;--brand:#0d9488;--route:#2563eb;--danger:#dc2626;
+  --landmark:#f5e6b8;--text:#1f2937;--muted:#64748b;--line:#e2e8f0;--card:#fff;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 8px 24px rgba(0,0,0,.06);
+}
+*{box-sizing:border-box}
+body{margin:0;background:#f3f4f6;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6}
+.wrap{max-width:768px;margin:0 auto;padding:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:16px;margin-bottom:14px}
+.hd{background:linear-gradient(135deg,#0e7490,#0891b2);color:#fff;border-radius:14px;padding:20px;margin-bottom:14px;position:relative;overflow:hidden}
+.hd:after{content:"";position:absolute;right:-30px;top:-30px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.12)}
+.hd h1{margin:0 0 6px;font-size:20px;position:relative;z-index:1}
+.hd p{margin:0;font-size:13px;opacity:.95;position:relative;z-index:1}
+h2{font-size:16px;margin:0 0 12px;padding-left:9px;border-left:4px solid #0891b2}
+.back{display:inline-block;color:#0e7490;text-decoration:none;font-weight:600;font-size:13px;margin-bottom:10px}
+.mapbox{background:var(--map-bg);border:2px solid #b9d4e8;border-radius:12px;position:relative;overflow:hidden;height:520px;font-size:11px}
+.water{position:absolute;background:var(--map-water);border:1px solid #a9cde8}
+.road{position:absolute;background:var(--map-road);border:1px solid var(--map-line);display:flex;align-items:center;justify-content:center;color:#64748b;font-size:10px}
+.block{position:absolute;background:var(--map-block);border:1px solid #c3d6e4;border-radius:4px;display:flex;align-items:center;justify-content:center;text-align:center;color:#475569;padding:2px;font-size:10px}
+.landmark{position:absolute;background:var(--landmark);border:1px solid #d9c37e;border-radius:4px;display:flex;align-items:center;justify-content:center;text-align:center;color:#78590d;font-weight:600;padding:2px;font-size:10px}
+.bus{position:absolute;background:#fff;border:2px solid #16a34a;color:#15803d;border-radius:5px;padding:2px 5px;font-size:9px;font-weight:700;z-index:5;white-space:nowrap}
+.tag{position:absolute;background:#fff;border:1px solid #cbd5e1;border-radius:5px;padding:2px 5px;color:#334155;font-size:10px;white-space:nowrap;z-index:4;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.tag.hl{background:#0d9488;color:#fff;border-color:#0d9488;font-weight:600}
+.tag.red{background:#fef2f2;color:#b91c1c;border-color:#fca5a5}
+.route-line{position:absolute;border:3px dashed var(--route);border-radius:8px;z-index:6;pointer-events:none}
+.danger-line{position:absolute;border:2px dashed var(--danger);z-index:6;pointer-events:none}
+.compass{position:absolute;right:10px;top:10px;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.88);border:1px solid #cbd5e1;display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:9px;z-index:8;color:#1e293b}
+.compass b{font-size:15px;color:#dc2626;line-height:1}
+.scale{position:absolute;left:10px;bottom:10px;background:rgba(255,255,255,.9);border:1px solid #cbd5e1;border-radius:5px;padding:3px 7px;font-size:10px;z-index:8;color:#334155}
+.scale i{display:inline-block;width:44px;height:6px;border-left:2px solid #334155;border-right:2px solid #334155;border-bottom:2px solid #334155;vertical-align:middle;margin-right:4px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:11px;color:var(--muted);margin-top:10px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:middle;margin-right:4px}
+table{width:100%;border-collapse:collapse;font-size:12px;margin:8px 0}
+th,td{border:1px solid var(--line);padding:7px;text-align:left;vertical-align:top}
+th{background:#f1f5f9;font-weight:600}
+.chip{display:inline-block;border-radius:5px;padding:1px 7px;font-size:11px;font-weight:600}
+.ok{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0}
+.warn{background:#fffbeb;color:#b45309;border:1px solid #fde68a}
+.info{background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe}
+.danger{background:#fef2f2;color:#dc2626;border:1px solid #fecaca}
+.sub{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:8px;padding:10px;font-size:12px;margin-top:8px}
+.foot{text-align:center;color:#64748b;font-size:11px;padding:12px}
+@media(max-width:640px){.mapbox{height:480px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<a class="back" href="index.html">← 返回攻略</a>
+<div class="hd">
+  <h1>🗺 柳州五星商圈 · 路口四角平面图</h1>
+  <p>蓝白地图风 · 老城核心商圈 · 螺蛳粉夜市 · 公交站与步行街</p>
+</div>
+
+<div class="card">
+  <h2>① 商圈总平面图（地面街区层）</h2>
+  <p class="chip warn">⚠️ 重要提示：柳州目前没有运营中的城市地铁，本图不标地铁口——请以公交站和步行街为定位参照，别找地铁。</p>
+  <div class="mapbox">
+    <!-- 柳江 -->
+    <div class="water" style="left:0;bottom:0;width:100%;height:62px">
+      <span style="position:absolute;left:14px;top:20px;font-size:12px;color:#1e6fa8;font-weight:700">柳 江 →（夜景/水上公交）</span>
+      <span class="tag hl" style="left:52%;top:8px;z-index:7">🌉 柳江大桥</span>
+    </div>
+    <!-- 道路：龙城路（南北向） -->
+    <div class="road" style="left:42%;top:20px;width:36px;height:400px;writing-mode:vertical-rl;letter-spacing:6px">龙城路</div>
+    <!-- 道路：中山中路（东西向） -->
+    <div class="road" style="left:0;top:150px;width:100%;height:30px">中山东路 / 中山中路</div>
+    <!-- 道路：解放南路（步行街，东西向） -->
+    <div class="road" style="left:0;top:270px;width:100%;height:30px">解放南路（步行街）</div>
+    <!-- 道路：曙光中路 -->
+    <div class="road" style="left:0;top:390px;width:100%;height:26px">曙光中路</div>
+    <!-- 四角建筑 -->
+    <div class="landmark" style="left:4%;top:40px;width:33%;height:95px">柳州工贸大厦<br>（八桂第一楼）</div>
+    <div class="block" style="left:52%;top:40px;width:42%;height:95px">地王国际<br>商业广场</div>
+    <div class="landmark" style="left:4%;top:190px;width:33%;height:65px">五星商业大厦<br>（中山中路1号）</div>
+    <div class="block" style="left:52%;top:190px;width:42%;height:65px">东都百货<br>五象百货</div>
+    <div class="landmark" style="left:4%;top:310px;width:90%;height:65px">★ 五星商业步行街（全长903米，北起解放北路、南至曙光中路）</div>
+    <div class="block" style="left:4%;top:430px;width:35%;height:45px">风情港<br>便民夜市</div>
+    <div class="landmark" style="left:60%;top:430px;width:34%;height:45px">青云菜市<br>（嗦粉早市）</div>
+    <!-- 五角星雕塑 -->
+    <div class="tag hl" style="left:38%;top:262px;z-index:7">★ 五角星城雕（集合点）</div>
+    <!-- 公交站 -->
+    <div class="bus" style="left:2%;top:118px">🚌 龙城路北站</div>
+    <div class="bus" style="left:60%;top:118px">🚌 罗池路北</div>
+    <div class="bus" style="left:2%;top:352px">🚌 中山立新路口</div>
+    <div class="bus" style="left:62%;top:352px">🚌 北车渡码头</div>
+    <!-- 设施 -->
+    <span class="tag red" style="left:6%;top:195px">🚻 五星大厦内</span>
+    <span class="tag" style="left:40%;top:195px">🛗 大厦客梯</span>
+    <span class="tag info" style="left:6%;top:435px">🚻 风情港内</span>
+    <!-- 推荐路径 -->
+    <div class="route-line" style="left:38%;top:330px;width:4px;height:60px"></div>
+    <div class="route-line" style="left:12%;top:330px;width:26%;height:4px"></div>
+    <span class="tag hl" style="left:5%;top:300px">🧭 推荐：青云菜市→步行街→五角星→夜市</span>
+    <!-- 雷区 -->
+    <div class="danger-line" style="left:0;top:415px;width:100%;height:2px"></div>
+    <span class="tag red" style="left:4%;top:400px">⚠ 柳江边步道夜间偏暗，结伴走</span>
+    <!-- 指北针+比例尺 -->
+    <div class="compass"><b>↑</b>N</div>
+    <div class="scale"><i></i>约200m</div>
+  </div>
+  <div class="legend">
+    <span><i style="background:#dbe7f0;border:1px solid #a8c6dc"></i>建筑/街区</span>
+    <span><i style="background:#f5e6b8;border:1px solid #d9c37e"></i>地标</span>
+    <span><i style="background:#cfe6f7;border:1px solid #a9cde8"></i>柳江</span>
+    <span><i style="background:#2563eb"></i>🧭推荐路径</span>
+    <span><i style="background:#dc2626"></i>⚠雷区</span>
+    <span><i style="background:#16a34a"></i>�公交站</span>
+  </div>
+</div>
+
+<div class="card">
+  <h2>② 路口四角速查 + 逛法</h2>
+  <table>
+    <tr><th>象限</th><th>主要建筑</th><th>适合</th></tr>
+    <tr><td>西北角</td><td>柳州工贸大厦（柳州商场）、五星商业大厦</td><td>老牌百货、日用品、躲雨</td></tr>
+    <tr><td>东北角</td><td>地王国际商业广场、东都百货</td><td>购物、餐饮</td></tr>
+    <tr><td>西南角</td><td>五星步行街南段、风情港夜市</td><td>小吃、夜市、看江景</td></tr>
+    <tr><td>东南角</td><td>青云菜市、柳江大桥北端</td><td>嗦粉早市、过江</td></tr>
+  </table>
+  <p class="sub">🚻 <b>厕所</b>：五星商业大厦内、风情港内、步行街沿线商场。<br>🛗 <b>电梯</b>：五星商业大厦设客梯及B1停车场电梯厅。<br>⏱ <b>建议停留</b>：1.5小时（青云菜市30分钟+步行街40分钟+夜市20分钟）。<br>🧭 <b>好走路径</b>：青云菜市→中山东路→五星步行街→五角星城雕→风情港夜市，全程步行街平路，避开中山大道机动车道。</p>
+</div>
+
+<div class="card">
+  <h2>③ 实用速查卡</h2>
+  <p>① <b>怎么找商圈</b>：柳州没有地铁，打车报"五星商业大厦"或"五星步行街"即可；公交到"龙城路""青云菜市""罗池路北"站。<br>
+  ② <b>营业时间</b>：五星商业大厦 10:00–22:00（⏳以现场为准）；青云菜市为早市，建议上午去。<br>
+  ③ <b>螺蛳粉店</b>：西环肥仔、老牌聚宝都在商圈周边打车10分钟内。<br>
+  ④ <b>地标参照物</b>：五角星城雕（步行街中心）、五星商业大厦、柳江大桥——迷路找这三个。<br>
+  ⑤ <b>行李寄存</b>：柳州站周边有寄存点，约¥10/天（⏳以平台为准）。</p>
+  <p class="chip danger">⚠ 步行街人流量大（日均30万人次），情侣同行看好随身物品；夜市小吃先问价再下单。</p>
+</div>
+
+<p class="foot">行策 v2.2 · 数据来源：腾讯地图、百度百科五星商业步行街、城市吧柳州、买购网 · 示意图非测绘比例 · ⏳项出行前复核</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>武汉江汉路商圈 · 地面+地铁口平面图</title>
+<style>
+:root{
+  --map-bg:#eaf4fb;--map-water:#cfe6f7;--map-road:#ffffff;--map-block:#dbe7f0;
+  --map-line:#a8c6dc;--brand:#0d9488;--brand-2:#059669;
+  --route:#2563eb;--danger:#dc2626;--landmark:#f5e6b8;--text:#1f2937;--muted:#64748b;
+  --line:#e2e8f0;--card:#fff;--shadow:0 1px 3px rgba(0,0,0,.08),0 8px 24px rgba(0,0,0,.06);
+}
+*{box-sizing:border-box}
+body{margin:0;background:#f3f4f6;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6}
+.wrap{max-width:768px;margin:0 auto;padding:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:16px;margin-bottom:14px}
+.hd{background:linear-gradient(135deg,#0e7490,#0891b2);color:#fff;border-radius:14px;padding:20px;margin-bottom:14px;position:relative;overflow:hidden}
+.hd:after{content:"";position:absolute;right:-30px;top:-30px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.12)}
+.hd h1{margin:0 0 6px;font-size:20px;position:relative;z-index:1}
+.hd p{margin:0;font-size:13px;opacity:.95;position:relative;z-index:1}
+h2{font-size:16px;margin:0 0 12px;padding-left:9px;border-left:4px solid #0891b2}
+.back{display:inline-block;color:#0e7490;text-decoration:none;font-weight:600;font-size:13px;margin-bottom:10px}
+/* 地图画布 */
+.mapbox{background:var(--map-bg);border:2px solid #b9d4e8;border-radius:12px;position:relative;overflow:hidden;height:560px;font-size:11px}
+.water{position:absolute;background:var(--map-water);border:1px solid #a9cde8}
+.road{position:absolute;background:var(--map-road);border:1px solid var(--map-line);display:flex;align-items:center;justify-content:center;color:#64748b;font-size:10px}
+.block{position:absolute;background:var(--map-block);border:1px solid #c3d6e4;border-radius:4px;display:flex;align-items:center;justify-content:center;text-align:center;color:#475569;padding:2px;font-size:10px}
+.landmark{position:absolute;background:var(--landmark);border:1px solid #d9c37e;border-radius:4px;display:flex;align-items:center;justify-content:center;text-align:center;color:#78590d;font-weight:600;padding:2px;font-size:10px}
+.metro{position:absolute;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid #dc2626;color:#b91c1c;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.15);z-index:5}
+.metro.blue{border-color:#1d4ed8;color:#1d4ed8}
+.tag{position:absolute;background:#fff;border:1px solid #cbd5e1;border-radius:5px;padding:2px 5px;color:#334155;font-size:10px;white-space:nowrap;z-index:4;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.tag.hl{background:#0d9488;color:#fff;border-color:#0d9488;font-weight:600}
+.tag.red{background:#fef2f2;color:#b91c1c;border-color:#fca5a5}
+.route-line{position:absolute;border:3px dashed var(--route);border-radius:8px;z-index:6;pointer-events:none}
+.danger-line{position:absolute;border:2px dashed var(--danger);z-index:6;pointer-events:none}
+.compass{position:absolute;right:10px;top:10px;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.88);border:1px solid #cbd5e1;display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:9px;z-index:8;color:#1e293b}
+.compass b{font-size:15px;color:#dc2626;line-height:1}
+.scale{position:absolute;left:10px;bottom:10px;background:rgba(255,255,255,.9);border:1px solid #cbd5e1;border-radius:5px;padding:3px 7px;font-size:10px;z-index:8;color:#334155}
+.scale i{display:inline-block;width:44px;height:6px;border-left:2px solid #334155;border-right:2px solid #334155;border-bottom:2px solid #334155;vertical-align:middle;margin-right:4px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:11px;color:var(--muted);margin-top:10px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:middle;margin-right:4px}
+table{width:100%;border-collapse:collapse;font-size:12px;margin:8px 0}
+th,td{border:1px solid var(--line);padding:7px;text-align:left;vertical-align:top}
+th{background:#f1f5f9;font-weight:600}
+.chip{display:inline-block;border-radius:5px;padding:1px 7px;font-size:11px;font-weight:600}
+.ok{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0}
+.warn{background:#fffbeb;color:#b45309;border:1px solid #fde68a}
+.info{background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe}
+.danger{background:#fef2f2;color:#dc2626;border:1px solid #fecaca}
+.sub{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:8px;padding:10px;font-size:12px;margin-top:8px}
+.foot{text-align:center;color:#64748b;font-size:11px;padding:12px}
+@media(max-width:640px){.mapbox{height:500px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<a class="back" href="index.html">← 返回攻略</a>
+<div class="hd">
+  <h1>🗺 武汉江汉路商圈 · 地面+地铁口平面图</h1>
+  <p>蓝白地图风 · 2号线&6号线换乘站 · 9个出口一个不漏 · 轮渡码头怎么走</p>
+</div>
+
+<div class="card">
+  <h2>① 商圈总平面图（地面层）</h2>
+  <div class="mapbox">
+    <!-- 长江水域 -->
+    <div class="water" style="right:0;top:0;width:100%;height:80px">
+      <span style="position:absolute;left:14px;top:26px;font-size:13px;color:#1e6fa8;font-weight:700">长 江 → 武昌方向</span>
+      <span class="tag hl" style="left:38%;top:12px;z-index:7">⛴ 中华路码头（轮渡发船）</span>
+    </div>
+    <!-- 道路：沿江大道（东西向） -->
+    <div class="road" style="left:0;top:80px;width:100%;height:30px">沿江大道</div>
+    <!-- 道路：江汉路（南北向步行街） -->
+    <div class="road" style="left:44%;top:110px;width:44px;height:290px;writing-mode:vertical-rl;letter-spacing:6px">江汉路步行街</div>
+    <!-- 道路：中山大道（东西向） -->
+    <div class="road" style="left:0;top:225px;width:100%;height:28px">中山大道</div>
+    <!-- 道路：交通路 -->
+    <div class="road" style="left:15%;top:253px;width:26px;height:150px;writing-mode:vertical-rl;letter-spacing:4px">交通路</div>
+    <!-- 道路：民生路 -->
+    <div class="road" style="left:70%;top:253px;width:26px;height:150px;writing-mode:vertical-rl;letter-spacing:4px">民生路</div>
+    <!-- 建筑块 -->
+    <div class="block" style="left:6%;top:116px;width:32%;height:95px">江汉关博物馆<br>（钟楼）</div>
+    <div class="landmark" style="left:50%;top:118px;width:17%;height:90px">江汉路<br>步行街</div>
+    <div class="block" style="left:73%;top:116px;width:23%;height:95px">汉口江滩<br>公园</div>
+    <div class="landmark" style="left:3%;top:262px;width:11%;height:60px">沃尔玛<br>大洋百货</div>
+    <div class="block" style="left:19%;top:262px;width:20%;height:60px">王府井<br>新佳丽</div>
+    <div class="landmark" style="left:49%;top:262px;width:19%;height:60px">中心百货<br>璇宫饭店</div>
+    <div class="block" style="left:73%;top:262px;width:23%;height:60px">水塔街<br>美食城</div>
+    <div class="block" style="left:3%;top:335px;width:41%;height:60px">老里分街区<br>保元里·永康里</div>
+    <div class="landmark" style="left:47%;top:335px;width:25%;height:60px">武汉美术馆<br>汉口馆</div>
+    <div class="block" style="left:75%;top:335px;width:21%;height:60px">胜利街<br>咸安坊</div>
+    <!-- 地铁站主体 -->
+    <div class="tag hl" style="left:41%;top:212px;z-index:7">⊗ 江汉路站（2/6号线）</div>
+    <!-- 地铁口：9个 -->
+    <div class="metro" style="left:40%;top:196px">A</div>
+    <div class="metro" style="left:46%;top:196px">B</div>
+    <div class="metro" style="left:52%;top:196px">C</div>
+    <div class="metro" style="left:58%;top:196px">D</div>
+    <div class="metro blue" style="left:40%;top:252px">E</div>
+    <div class="metro blue" style="left:46%;top:252px">F</div>
+    <div class="metro blue" style="left:52%;top:252px">G</div>
+    <div class="metro blue" style="left:58%;top:252px">H</div>
+    <div class="metro blue" style="left:64%;top:252px">J</div>
+    <!-- 设施标签 -->
+    <span class="tag red" style="left:2%;top:207px">🚻A口厕所·无障碍</span>
+    <span class="tag red" style="left:60%;top:207px">🚻D口厕所·无障碍</span>
+    <span class="tag red" style="left:2%;top:270px">🚻G口厕所·无障碍</span>
+    <span class="tag info" style="left:2%;top:290px">🚻B口厕所</span>
+    <span class="tag" style="left:66%;top:290px">🛗站厅电梯</span>
+    <!-- 推荐路径：C口→江汉关→江滩→轮渡 -->
+    <div class="route-line" style="left:52%;top:150px;width:4px;height:46px"></div>
+    <div class="route-line" style="left:20%;top:150px;width:32%;height:4px"></div>
+    <div class="route-line" style="left:20%;top:90px;width:4px;height:60px"></div>
+    <span class="tag hl" style="left:8%;top:155px">🧭 推荐：C口→江汉关→江滩→轮渡</span>
+    <!-- 雷区 -->
+    <div class="danger-line" style="left:18%;top:400px;width:30%;height:2px;transform:rotate(-8deg)"></div>
+    <span class="tag red" style="left:4%;top:410px">⚠ 中山大道车流大，别横穿</span>
+    <!-- 指北针+比例尺 -->
+    <div class="compass"><b>↑</b>N</div>
+    <div class="scale"><i></i>约200m</div>
+  </div>
+  <div class="legend">
+    <span><i style="background:#dbe7f0;border:1px solid #a8c6dc"></i>建筑/街区</span>
+    <span><i style="background:#f5e6b8;border:1px solid #d9c37e"></i>地标</span>
+    <span><i style="background:#cfe6f7;border:1px solid #a9cde8"></i>水域</span>
+    <span><i style="background:#2563eb"></i>🧭推荐路径</span>
+    <span><i style="background:#dc2626"></i>⚠雷区</span>
+    <span>🔴2号线口　🔵6号线口</span>
+  </div>
+</div>
+
+<div class="card">
+  <h2>② 9个出口速查（一个不漏）</h2>
+  <table>
+    <tr><th>出口</th><th>主线</th><th>出站直达</th></tr>
+    <tr><td><b>A</b> 🔴</td><td>历史风貌</td><td>步行街北段、保元里、武汉美术馆汉口馆、街头历史博物馆 <span class="chip ok">🚻无障碍</span></td></tr>
+    <tr><td><b>B</b> 🔴</td><td>商场</td><td>沃尔玛、大洋百货、王府井、蔡林记、曹祥泰 <span class="chip warn">🚻有厕所</span></td></tr>
+    <tr><td><b>C</b> 🔴</td><td><b>江边轮渡</b></td><td><b>江汉关博物馆、汉口江滩、轮渡码头</b>、三联书店、四明银行旧址 <span class="chip info">✨本行程推荐口</span></td></tr>
+    <tr><td><b>D</b> 🔴</td><td>文艺潮流</td><td>汉口STAY、胜利街、咸安坊、巴公房子（民国老宅Citywalk）<span class="chip ok">🚻无障碍</span></td></tr>
+    <tr><td><b>E</b> 🔵</td><td>步行街核心</td><td>璇宫饭店、中心百货、新世界百货、保成路夜市</td></tr>
+    <tr><td><b>F</b> 🔵</td><td>美食</td><td>汉口水塔、大汉口美食城、鲍师傅、茶颜悦色</td></tr>
+    <tr><td><b>G</b> 🔵</td><td>商场/街道</td><td>新佳丽广场、水塔街道、大洋百货 <span class="chip ok">🚻无障碍</span></td></tr>
+    <tr><td><b>H</b> 🔵</td><td>商圈</td><td>武汉关小学、Happy站台、宝利金广场、民众乐园</td></tr>
+    <tr><td><b>J</b> 🔵</td><td>商场</td><td>交通路、王府井百货（很近）、Happy站台</td></tr>
+  </table>
+  <p class="sub">🚻 <b>厕所位置</b>：A、B、D、G口有卫生间；A、D、G口有无障碍卫生间。<br>🛗 <b>电梯</b>：站厅设有直梯可达站台，带行李/老人走A或D口有无障碍设施。<br>⏱ <b>建议停留</b>：2.5小时（江汉关30分钟+步行街1小时+江滩40分钟+轮渡往返20分钟）。</p>
+</div>
+
+<div class="card">
+  <h2>③ 路口怎么过 · 速查卡</h2>
+  <p>① <b>从哪个口出</b>：想拍百年建筑+坐轮渡 → <b>C口</b>；想逛街 → B/E口；想吃 → F口。<br>
+  ② <b>过江怎么走</b>：C口出→步行街南段→江汉关钟楼→江滩公园→中华路码头，全程平路约10分钟，不用打车。<br>
+  ③ <b>四角各有什么</b>：西北角沃尔玛/大洋，东北角江滩，西南角老里分，东南角王府井/新世界。<br>
+  ④ <b>红绿灯</b>：中山大道与江汉路交叉口有行人灯，按灯走斑马线，别跟着人流横穿。<br>
+  ⑤ <b>末班车</b>：2/6号线首班约06:00、末班约23:00（⏳以武汉地铁官方为准）。</p>
+  <p class="chip danger">⚠ 轮渡在中华路码头（武昌侧）与武汉关码头（汉口侧）之间往返，别跑错岸。</p>
+</div>
+
+<p class="foot">行策 v2.2 · 地铁口数据来源：MetroMan地铁通、腾讯地图、江汉路地铁出口指南（2026）· 示意图非测绘比例 · ⏳项出行前复核</p>
+</div>
+</body>
+</html>

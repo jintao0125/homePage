@@ -2,70 +2,87 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="个人主页">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="jintao 的个人主页">
     <title>jintao的主页</title>
     <link rel="icon" href="images/home.png" type="image/png">
+    <link rel="apple-touch-icon" href="images/home.png">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="wrapper">
-        <section class="left">
-            <div class="music-player">
-                <audio id="audio" crossorigin="anonymous"></audio>
-                <div class="player-controls">
-                    <div class="song-info">
-                        <div id="song-title">未播放</div>
-                        <div id="song-artist">未知歌手</div>
-                    </div>
-                    <div class="progress-bar">
-                        <div id="progress"></div>
-                    </div>
-                    <div class="control-buttons">
-                        <button id="prev-btn">上一首</button>
-                        <button id="play-btn">播放</button>
-                        <button id="next-btn">下一首</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="right">
-            <div class="index_box">
-                <img src="images/head.png" alt="头像" class="avatar">
-                <h1>jintao</h1>
-                <div class="zuobiao">中国·北京</div>
-                <div class="icon-nav">
-                    <a href="https://proxy.jintao.space" target="_blank" class="icon-link">
-                        <img src="images/traefik.png" alt="Traefik" class="nav-icon">
-                        <span class="icon-label">Traefik</span>
-                    </a>
-                    <a href="https://portainer.jintao.space" target="_blank" class="icon-link">
-                        <img src="images/portainer.png" alt="Portainer" class="nav-icon">
-                        <span class="icon-label">Portainer</span>
-                    </a>
-                    <a href="https://space.bilibili.com/1782360558" target="_blank" class="icon-link icon-link-no-label">
-                        <img src="images/bilibili.png" alt="Bilibili" class="nav-icon">
-                    </a>
-                    <a href="https://www.gamersky.com/tools/valorantSkin/" target="_blank" class="icon-link icon-link-no-label">
-                        <img src="images/valorant.png" alt="Valorant" class="nav-icon">
-                    </a>
-                    <a href="https://www.vcrdb.net/#google_vignette" target="_blank" class="icon-link icon-link-no-label">
-                        <img src="images/zhunxing.png" alt="ZhunXing" class="nav-icon">
-                    </a>
-                    <a href="https://group.jintao.space/" target="_blank" class="icon-link icon-link-no-label">
-                        <img src="images/wa.png" alt="WA" class="nav-icon">
-                    </a>
-                </div>
-            </div>
-            <!-- 移动端播放器容器 -->
-            <div class="mobile-player"></div>
-            <footer class="right_foot">
-                <p class="beian">
-                    <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备2023018843号-1</a>
-                </p>
-            </footer>
-        </section>
+    <!-- 载入动画 -->
+    <div class="loader" id="loader">
+        <div class="loader-spinner"></div>
+        <p class="loader-text">欢迎来到 jintao 的主页</p>
     </div>
-    <script src="js/main.js"></script>
+
+    <!-- 背景层 -->
+    <div class="bg-layer" id="bg"></div>
+    <div class="bg-mask"></div>
+
+    <!-- 主体卡片 -->
+    <main class="page">
+        <section class="card">
+            <header class="user">
+                <img src="images/head.png" alt="头像" class="avatar" width="96" height="96">
+                <h1 class="name">jintao</h1>
+                <p class="greeting" id="greeting">你好呀</p>
+            </header>
+
+            <div class="time-box">
+                <span class="clock" id="clock">--:--:--</span>
+                <span class="date" id="date">----年--月--日 星期-</span>
+            </div>
+
+            <div class="hitokoto">
+                <p class="hitokoto-text" id="hitokoto-text">「 一言加载中… 」</p>
+                <p class="hitokoto-from" id="hitokoto-from"></p>
+            </div>
+
+            <div class="info-row">
+                <span class="weather" id="weather">天气获取中…</span>
+                <span class="location" id="location">中国·北京</span>
+            </div>
+
+            <div class="year-progress">
+                <div class="yp-label">
+                    <span>时光进度</span>
+                    <span id="yp-percent">--%</span>
+                </div>
+                <div class="yp-bar"><div class="yp-fill" id="yp-fill"></div></div>
+            </div>
+
+            <!-- 网站列表 -->
+            <nav class="sites" aria-label="常用站点">
+                <h2 class="sites-title">常用站点</h2>
+                <div class="site-list">
+                    <a class="site-link" href="http://jintao.space:9090/" target="_blank" rel="noopener">
+                        <span class="site-icon">
+                            <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M4 4h7v7H4zm9 0h7v7h-7zM4 13h7v7H4zm9 0h7v7h-7z"/></svg>
+                        </span>
+                        <span class="site-name">MinIO</span>
+                    </a>
+                    <a class="site-link" href="https://www.bw.jintao.space" target="_blank" rel="noopener">
+                        <span class="site-icon">
+                            <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 2 4 5v6c0 5.25 3.4 9.74 8 11 4.6-1.26 8-5.75 8-11V5l-8-3zm0 2.2 6 2.25V11c0 4.28-2.55 8.1-6 9.3-3.45-1.2-6-5.02-6-9.3V6.45l6-2.25z"/></svg>
+                        </span>
+                        <span class="site-name">Bitwarden</span>
+                    </a>
+                    <a class="site-link" href="202612/index.html">
+                        <span class="site-icon">
+                            <svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="m20.5 3-.16.03L6 5.72 3.5 6.4A2 2 0 0 0 2 8.32v7.36c0 .93.64 1.71 1.5 1.92l2.44.63L6 19.28l14.34 2.69.16.03c.83 0 1.5-.67 1.5-1.5v-16c0-.83-.67-1.5-1.5-1.5zM10 5.9l4-.75v4.1h-4V5.9zM4 8.32l4-.75v4.68H4V8.32zm0 7.36v-3.93h4v4.68l-4-.75zm10 5.57-4 .75v-3.75h4v3zm6-.19-4 .75v-3.56h4v2.81zm0-4.81h-4v-4.1h4v4.1zm0-6.1h-4V4.78l4 .75v5.62z"/></svg>
+                        </span>
+                        <span class="site-name">202612月旅游</span>
+                    </a>
+                </div>
+            </nav>
+        </section>
+
+        <footer class="footer">
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">京ICP备2023018843号-1</a>
+        </footer>
+    </main>
+
+    <script src="js/main.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>武汉·柳州·贵阳·三亚 | 10天9晚旅行攻略</title>
+<style>
+:root{
+  --brand:#0d9488;--brand-2:#059669;--brand-soft:#f0fdfa;--card:#ffffff;--card-alt:#f9fafb;
+  --text:#1f2937;--muted:#6b7280;--line:#e5e7eb;
+  --ok-bg:#f0fdf4;--ok-fg:#16a34a;--ok-line:#bbf7d0;
+  --warn-bg:#fffbeb;--warn-fg:#b45309;--warn-line:#fde68a;
+  --danger-bg:#fef2f2;--danger-fg:#dc2626;--danger-line:#fecaca;
+  --info-bg:#eff6ff;--info-fg:#2563eb;--info-line:#bfdbfe;
+  --note-bg:#fef9c3;--note-fg:#a16207;
+  --pending-bg:#fff7ed;--pending-fg:#ea580c;--pending-line:#fed7aa;
+  --radius:14px;--shadow:0 1px 3px rgba(0,0,0,.08),0 8px 24px rgba(0,0,0,.06);
+}
+*{box-sizing:border-box}
+body{margin:0;background:#f3f4f6;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.65;-webkit-text-size-adjust:100%}
+.wrap{max-width:768px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin-bottom:16px}
+.hero{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;border-radius:var(--radius);padding:28px 22px;margin-bottom:16px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.12)}
+.hero h1{margin:0 0 8px;font-size:25px;line-height:1.35;position:relative;z-index:1}
+.hero p{margin:0 0 14px;font-size:14px;opacity:.95;position:relative;z-index:1}
+.tag{display:inline-block;background:rgba(255,255,255,.22);color:#fff;border-radius:999px;padding:4px 12px;font-size:12px;margin:0 6px 6px 0}
+h2{font-size:19px;margin:0 0 14px;padding-left:10px;border-left:4px solid var(--brand)}
+h3{font-size:15px;margin:18px 0 8px}
+p{margin:8px 0}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.stat{background:var(--brand-soft);border-radius:10px;padding:12px;text-align:center}
+.stat b{display:block;font-size:17px;color:var(--brand)}
+.stat span{font-size:12px;color:var(--muted)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.chip{display:inline-block;border-radius:6px;padding:2px 8px;font-size:12px;font-weight:600;white-space:nowrap}
+.ok{background:var(--ok-bg);color:var(--ok-fg);border:1px solid var(--ok-line)}
+.warn{background:var(--warn-bg);color:var(--warn-fg);border:1px solid var(--warn-line)}
+.danger{background:var(--danger-bg);color:var(--danger-fg);border:1px solid var(--danger-line)}
+.info{background:var(--info-bg);color:var(--info-fg);border:1px solid var(--info-line)}
+.pending{background:var(--pending-bg);color:var(--pending-fg);border:1px solid var(--pending-line)}
+.note{background:var(--note-bg);color:var(--note-fg)}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
+th,td{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}
+th{background:var(--card-alt);font-weight:600}
+.day{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin-bottom:16px}
+.day-hd{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;border-bottom:2px solid var(--brand-soft);padding-bottom:10px;margin-bottom:12px}
+.day-hd h3{margin:0;font-size:17px;color:var(--brand)}
+.tl{position:relative;padding-left:22px}
+.tl:before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:var(--brand-soft)}
+.tl-item{position:relative;margin-bottom:12px}
+.tl-item:before{content:"";position:absolute;left:-19px;top:7px;width:9px;height:9px;border-radius:50%;background:var(--brand);border:2px solid #fff;box-shadow:0 0 0 2px var(--brand-soft)}
+.tl-time{font-weight:700;color:var(--brand);font-size:13px;margin-right:6px}
+.sub{background:var(--card-alt);border:1px dashed var(--line);border-radius:10px;padding:10px 12px;margin-top:8px;font-size:13px}
+.plan-btn{display:inline-block;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;text-decoration:none;border-radius:10px;padding:9px 15px;font-size:13px;font-weight:600;margin:6px 6px 0 0;box-shadow:0 3px 10px rgba(13,148,136,.25)}
+.plan-btn:active{transform:scale(.97)}
+.rain{background:var(--info-bg);color:var(--info-fg);border-radius:8px;padding:8px 10px;font-size:12px;margin-top:10px}
+.bar-row{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:13px}
+.bar-label{width:64px;flex-shrink:0}
+.bar-track{flex:1;background:#eef2f3;border-radius:7px;height:16px;overflow:hidden}
+.bar{height:16px;border-radius:7px;background:linear-gradient(90deg,var(--brand),var(--brand-2))}
+.bar-val{width:74px;text-align:right;font-weight:600;flex-shrink:0}
+.pitfall{background:var(--danger-bg);border:1px solid var(--danger-line);border-radius:var(--radius);padding:18px;margin-bottom:16px}
+.pitfall h2{color:var(--danger-fg);border-left-color:var(--danger-fg)}
+.emerg{background:var(--card-alt);border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px;font-size:13px}
+.emerg b{color:var(--brand)}
+.foot{text-align:center;color:var(--muted);font-size:12px;padding:16px 0}
+@media(max-width:640px){.grid2,.grid4{grid-template-columns:1fr}.hero h1{font-size:21px}.bar-val{width:66px}}
+@media print{body{background:#fff}.card,.day{box-shadow:none;break-inside:avoid}.plan-btn{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <h1>武汉 · 柳州 · 贵阳 · 三亚<br>10天9晚双城穿行攻略</h1>
+  <p>从长江边到喀斯特，从螺蛳粉到海风——情侣二人的冬日跨省之旅</p>
+  <div>
+    <span class="tag">12月中旬 · 冬季</span>
+    <span class="tag">经济档 · 人均约¥3,700</span>
+    <span class="tag">卧铺+飞机混搭</span>
+    <span class="tag">情侣慢游</span>
+  </div>
+</div>
+
+<div class="card">
+  <h2>① 总览概要</h2>
+  <div class="grid4">
+    <div class="stat"><b>10天9晚</b><span>行程天数</span></div>
+    <div class="stat"><b>4城</b><span>武汉→柳州→贵阳→三亚</span></div>
+    <div class="stat"><b>¥3,700</b><span>经济档人均</span></div>
+    <div class="stat"><b>2人</b><span>情侣同行</span></div>
+  </div>
+  <h3>核心亮点</h3>
+  <p>🌉 长江轮渡横渡 + 黄鹤楼登楼，一天看尽两江三镇</p>
+  <p>🍜 柳州螺蛳粉 + 马鞍山日落，嗦粉看城的市井浪漫</p>
+  <p>💧 黄果树瀑布穿越水帘洞 + 三亚亚龙湾踩沙收尾</p>
+  <p class="note" style="padding:8px 10px;border-radius:8px;font-size:12px">📌 交通决策：郑州→武汉、武汉→柳州保留卧铺（睡一晚省一晚房费）；贵阳→三亚、海口→郑州改飞机——火车这两段分别要15h中转和28h直达，塞不进10天。两人机票合计约¥2,080。</p>
+</div>
+
+<div class="card">
+  <h2>② 交通方案</h2>
+  <h3>城际交通总表 <span class="chip ok">🔎 已核实</span></h3>
+  <table>
+    <tr><th>区间</th><th>推荐</th><th>时间</th><th>票价(元/人)</th><th>说明</th></tr>
+    <tr><td>郑州→武汉</td><td><b>V1347</b> 普速卧铺</td><td>22:39→次日05:27<br>6h48m</td><td>硬卧¥133<br>软卧¥205</td><td class="chip ok">睡6.5h</td></tr>
+    <tr><td>武汉→柳州</td><td><b>V157</b> 武昌发</td><td>23:56→次日13:43<br>13h47m</td><td>硬卧¥232.5<br>软卧¥360.5</td><td>睡一晚省房费</td></tr>
+    <tr><td>柳州→贵阳</td><td><b>D1796</b> 动车</td><td>14:00→17:56<br>3h56m</td><td>二等座¥231.5</td><td>此段无卧铺</td></tr>
+    <tr><td>贵阳→三亚</td><td><b>CZ8561</b> 南航直飞</td><td>07:00→08:45<br>1h45m</td><td>¥710（4折）</td><td class="chip pending">⏳ 出行前复核</td></tr>
+    <tr><td>三亚→海口</td><td>环岛高铁</td><td>约1.5h</td><td>约¥100</td><td class="chip pending">⏳ 以12306为准</td></tr>
+    <tr><td>海口→郑州</td><td><b>GS6523</b> 天津航空</td><td>15:30→18:20<br>2h50m</td><td>¥330（1.5折）</td><td class="chip pending">⏳ 出行前复核</td></tr>
+  </table>
+  <p class="sub"><b>💡 为什么首段选V1347不选高铁：</b>郑州→武汉高铁二等座¥244–293，2小时但傍晚发车、到武汉还得开房；V1347硬卧¥133睡6.5小时，次日05:27到武昌，省一晚房费还多玩半天。<br><b>⚠️ 凌晨到达提示：</b>05:27到武昌站，地铁首班约06:00，可在站内候车或打车到酒店（约¥20–30）补觉，别硬逛。</p>
+  <h3>购票渠道</h3>
+  <p>火车：12306 App（提前15天开售，卧铺建议开售即抢）；机票：航司官方App/携程/飞猪，低价票多在早班与晚班。</p>
+  <p class="chip warn">⚠️ 12月中旬为淡季，票价平稳，但贵阳→三亚早班机热门，建议提前2周锁定。</p>
+</div>
+
+<div class="card">
+  <h2>③ 住宿推荐</h2>
+  <table>
+    <tr><th>城市</th><th>建议片区</th><th>经济档价位</th><th>理由</th></tr>
+    <tr><td>武汉</td><td>江汉路/循礼门地铁口</td><td>¥160–240/间夜</td><td>2/6号线交汇，步行街+轮渡码头都在附近</td></tr>
+    <tr><td>柳州</td><td>五星商圈/柳州站周边</td><td>¥140–220/间夜</td><td>嗦粉、夜市、去龙潭公园都方便</td></tr>
+    <tr><td>贵阳</td><td>喷水池/大十字</td><td>¥160–240/间夜</td><td>1/2号线换乘，去甲秀楼、黔灵山、机场巴士都顺</td></tr>
+    <tr><td>三亚</td><td>三亚湾/市区（非亚龙湾）</td><td>¥200–320/间夜</td><td>经济档住市区，去亚龙湾/机场都近；海景房贵3倍</td></tr>
+  </table>
+  <p class="sub">📝 <b>实战批注：</b>连锁快捷优先选地铁口5分钟内；三亚别被"亚龙湾海景"诱惑，经济档住三亚湾或市区，省下的钱够吃两顿海鲜。</p>
+  <p class="chip ok">✅ 四城合计7个付费住宿夜（D1、D4两晚在卧铺上解决，省2晚房费）</p>
+</div>
+
+<div class="day">
+  <div class="day-hd"><h3>Day 1 · 郑州夜车南下，睡一觉到武昌</h3><span class="chip info">交通日</span></div>
+  <div class="tl">
+    <div class="tl-item"><span class="tl-time">22:39</span>郑州站乘 <b>V1347</b> 硬卧（¥133/人），睡前备好眼罩耳塞</div>
+    <div class="tl-item"><span class="tl-time">全天</span>白天在郑州正常安排，晚餐后提前40分钟到站</div>
+  </div>
+  <p class="rain">☔ 雨天备选：本日纯交通，无影响；若列车晚点，武汉行程整体后移，D3黄鹤楼压缩为1小时。</p>
+</div>
+
+<div class="day">
+  <div class="day-hd"><h3>Day 2 · 编钟与湖风，武昌的清晨慢启</h3><span class="chip ok">湖北省博+东湖</span></div>
+  <div class="tl">
+    <div class="tl-item"><span class="tl-time">05:27</span>抵达武昌站，打车至酒店（约¥20–30）补觉至09:00</div>
+    <div class="tl-item"><span class="tl-time">09:30</span><b>湖北省博物馆</b>（免费）<span class="chip ok">🔎</span>：看曾侯乙65件编钟、越王勾践剑；<span class="chip danger">务必提前5天实名预约</span>，周一闭馆</div>
+    <div class="tl-item"><span class="tl-time">12:00</span>午餐：省博附近"湖锦酒楼"或地铁口快餐，人均¥40</div>
+    <div class="tl-item"><span class="tl-time">14:00</span><b>东湖绿道骑行</b>（免费）：梨园入口租车，骑湖中一段即可，不必骑完全程</div>
+    <div class="tl-item"><span class="tl-time">18:00</span>晚餐：楚河汉街，人均¥60–80</div>
+  </div>
+  <div class="sub">🎫 编钟演出¥50/人（可选，强烈推荐，现场购票）<br>🚇 地铁8号线"省博湖北日报"站直达省博<br>📍 省博地址：武昌区东湖路160号</div>
+  <p class="rain">☔ 若下雨：东湖骑行改为<b>湖北省博深度游+武汉美术馆</b>，室内不淋雨。</p>
+</div>
+
+<div class="day">
+  <div class="day-hd"><h3>Day 3 · 黄鹤楼、老街与横渡长江</h3><span class="chip ok">江汉路商圈</span></div>
+  <div class="tl">
+    <div class="tl-item"><span class="tl-time">08:30</span><b>黄鹤楼</b>（¥70/人，优惠票¥35）：地铁5号线彭刘杨站，早去避人流</div>
+    <div class="tl-item"><span class="tl-time">11:00</span><b>昙华林</b>文艺街区漫步，咖啡+老建筑拍照</div>
+    <div class="tl-item"><span class="tl-time">12:30</span>午餐：粮道街"赵师傅热干面""天天红油赵师傅"，人均¥20</div>
+    <div class="tl-item"><span class="tl-time">15:00</span>地铁至中华路码头，<b>轮渡横渡长江</b>至武汉关（¥1.5/人）<span class="chip ok">🔎</span></div>
+    <div class="tl-item"><span class="tl-time">16:00</span><b>江汉路步行街 + 江汉关钟楼</b>——见下方平面图</div>
+    <div class="tl-item"><span class="tl-time">19:00</span>晚餐：江汉路"蔡林记"或水塔美食街，人均¥30–50</div>
+  </div>
+  <div class="row">
+    <a class="plan-btn" href="jianghanlu-map.html">🗺 江汉路商圈平面图（9个地铁口+轮渡码头）→</a>
+  </div>
+  <div class="sub">🚻 江汉路站厕所：A/B/D/G口；无障碍厕所：A/D/G口<br>🚶 好走路径：C口出→江汉关→江滩→轮渡码头，全程平路<br>⏱ 建议停留：2.5小时</div>
+  <p class="rain">☔ 若下雨：轮渡照常（船内观景），改为<b>江汉关博物馆+武汉美术馆</b>室内游。</p>
+</div>
+
+<div class="day">
+  <div class="day-hd"><h3>Day 4 · 汉口旧租界，夜车南下柳州</h3><span class="chip info">交通日+半日游</span></div>
+  <div class="tl">
+    <div class="tl-item"><span class="tl-time">09:00</span>汉口租界老建筑Citywalk：中山大道→鄱阳街→青岛路，免费</div>
+    <div class="tl-item"><span class="tl-time">11:30</span>午餐：江汉路"蔡林记"热干面+豆皮，人均¥25</div>
+    <div class="tl-item"><span class="tl-time">14:00</span>回酒店取行李，江汉路地铁回武昌站</div>
+    <div class="tl-item"><span class="tl-time">23:56</span>武昌站乘 <b>V157</b> 硬卧（¥232.5/人）赴柳州</div>
+  </div>
+  <p class="rain">☔ 若下雨：租界漫步改为<b>武汉博物馆</b>（免费，江汉区青年路373号）。</p>
+</div>
+
+<div class="day">
+  <div class="day-hd"><h3>Day 5 · 嗦粉日，龙潭公园的喀斯特</h3><span class="chip ok">柳州</span></div>
+  <div class="tl">
+    <div class="tl-item"><span class="tl-time">13:43</span>抵达柳州站，打车至酒店放行李（约¥15）</div>
+    <div class="tl-item"><span class="tl-time">14:30</span><b>青云菜市</b>：本地人菜市场，螺蛳粉、糯米饭、酸嘢，人均¥20</div>
+    <div class="tl-item"><span class="tl-time">16:00</span><b>龙潭公园</b>（免费）<span class="chip ok">🔎</span>：喀斯特石山+侗族风雨桥，情侣拍照绝佳</div>
+    <div class="tl-item"><span class="tl-time">19:00</span>晚餐：<b>螺蛳粉</b>——"西环肥仔""老牌聚宝"二选一，人均¥15–25</div>
+    <div class="tl-item"><span class="tl-time">20:30</span>五星商圈夜市散步——见下方平面图</div>
+  </div>
+  <div class="row">
+    <a class="plan-btn" href="wuxing-map.html">🗺 柳州五星商圈平面图（路口四角+夜市）→</a>
+  </div>
+  <div class="sub">🍜 口味预警：螺蛳粉酸笋味极重，第一次吃建议点"微辣+少酸笋"<br>🚪 五星商业大厦四门：东1门/北门/南门/西门，B1有停车场<br>⏱ 建议停留：1.5小时</div>
+  <p class="rain">☔ 若下雨：龙潭公园改为<b>柳州工业博物馆</b>（了解"工业柳州"+螺蛳粉历史，免费）。</p>
+</div>
+
+<div class="day">
+  <div class="day-hd"><h3>Day 6 · 马鞍山日落，柳江夜色</h3><span class="chip ok">柳州</span></div>
+  <div class="tl">
+    <div class="tl-item"><span class="tl-time">09:00</span>睡到自然醒，早餐：螺蛳粉+豆浆</div>
+    <div class="tl-item"><span class="tl-time">10:30</span>柳侯公园/罗池（免费），罗池路北公交站可达</div>
+    <div class="tl-item"><span class="tl-time">12:00</span>午餐：五星商圈"螺蛳鸭脚煲"，人均¥40</div>
+    <div class="tl-item"><span class="tl-time">16:30</span><b>马鞍山</b>登山（约40分钟），山顶看柳州全城日落</div>
+    <div class="tl-item"><span class="tl-time">19:30</span><b>柳江水上公交</b>（¥3–5/人，⏳以现场为准）看两岸灯光；或风情港夜市</div>
+  </div>
+  <p class="rain">☔ 若下雨：马鞍山改为<b>柳州博物馆</b>或<b>五星地下商业街</b>，水上公交停运则改窑埠古镇室内餐饮。</p>
+</div>
+
+<div class="day">
+  <div class="day-hd"><h3>Day 7 · 跨省入黔，甲秀楼夜色</h3><span class="chip ok">贵阳</span></div>
+  <div class="tl">
+    <div class="tl-item"><span class="tl-time">09:00</span>柳州站周边早餐，退房</div>
+    <div class="tl-item"><span class="tl-time">14:00</span><b>D1796</b> 柳州→贵阳东（¥231.5/人）</div>
+    <div class="tl-item"><span class="tl-time">17:56</span>抵达贵阳东，地铁/公交至喷水池入住</div>
+    <div class="tl-item"><span class="tl-time">19:00</span><b>甲秀楼</b>（免费）夜景+南明河，情侣散步</div>
+    <div class="tl-item"><span class="tl-time">20:30</span><b>青云市集</b>：贵阳夜宵天花板，丝娃娃、烤脑花、冰浆，人均¥50</div>
+  </div>
+  <div class="row">
+    <a class="plan-btn" href="penshuichi-map.html">🗺 贵阳喷水池商圈平面图（10个地铁口）→</a>
+  </div>
+  <p class="rain">☔ 若下雨：甲秀楼改为<b>贵州省博物馆</b>（免费，观山湖区）或青云市集室内区。</p>
+</div>
+
+<div class="day">
+  <div class="day-hd"><h3>Day 8 · 黄果树瀑布一日穿越</h3><span class="chip ok">安顺·黄果树</span></div>
+  <div class="tl">
+    <div class="tl-item"><span class="tl-time">07:00</span>贵阳出发景区直通车（约2h，¥50–70/人，⏳以平台为准）</div>
+    <div class="tl-item"><span class="tl-time">09:00</span><b>黄果树景区</b>（门票¥150/人+观光车¥50/人）<span class="chip danger">无预约不旅游</span></div>
+    <div class="tl-item"><span class="tl-time">10:00</span>陡坡塘→天星桥→大瀑布，走单向不折返</div>
+    <div class="tl-item"><span class="tl-time">13:00</span><b>水帘洞</b>（限流6000人/天）：<span class="chip danger">必须"安旅通"小程序单独预约</span>，穿防滑鞋+带雨具</div>
+    <div class="tl-item"><span class="tl-time">17:00</span>返贵阳，晚餐酸汤鱼（人均¥60）</div>
+  </div>
+  <div class="sub">🎫 预约：微信/支付宝搜"安旅通"，最多提前15天；门票10天有效<br>⏰ 高峰期水帘洞排队60–90分钟，务必预约早时段<br>📞 景区热线 400-800-9998</div>
+  <p class="rain">☔ 若大雨/水帘洞关闭：改<b>龙宫景区</b>或<b>天龙屯堡</b>（官方分流建议）。</p>
+</div>
+
+<div class="day">
+  <div class="day-hd"><h3>Day 9 · 飞向海岛，亚龙湾踩沙</h3><span class="chip ok">三亚</span></div>
+  <div class="tl">
+    <div class="tl-item"><span class="tl-time">05:30</span>贵阳市区→龙洞堡机场（打车约¥50，或机场巴士）</div>
+    <div class="tl-item"><span class="tl-time">07:00</span><b>CZ8561</b> 贵阳→三亚（¥710/人，1h45m）</div>
+    <div class="tl-item"><span class="tl-time">08:45</span>抵达三亚凤凰机场，公交/打车至市区酒店放行李</div>
+    <div class="tl-item"><span class="tl-time">11:00</span><b>亚龙湾</b>：免费公共沙滩，踩沙、游泳、看椰林</div>
+    <div class="tl-item"><span class="tl-time">15:00</span>可选加项：<b>蜈支洲岛</b>（门船票约¥140–160/人，⏳以官方为准）——如选此项，亚龙湾压缩为2小时</div>
+    <div class="tl-item"><span class="tl-time">19:00</span>晚餐：三亚湾"萌哒哒椰子鸡"或第一市场海鲜加工，人均¥80–120</div>
+  </div>
+  <p class="rain">☔ 若下雨：亚龙湾改为<b>三亚千古情</b>（演出票约¥300，⏳）或<b>免税店</b>逛街。</p>
+</div>
+
+<div class="day">
+  <div class="day-hd"><h3>Day 10 · 海口老街，飞返郑州</h3><span class="chip info">返程日</span></div>
+  <div class="tl">
+    <div class="tl-item"><span class="tl-time">07:30</span>三亚站乘环岛高铁赴海口东（约1.5h，¥100/人）</div>
+    <div class="tl-item"><span class="tl-time">10:00</span><b>骑楼老街</b>：海口中山路，南洋风情建筑+老爸茶</div>
+    <div class="tl-item"><span class="tl-time">12:00</span>午餐：骑楼老街"亚妹海南粉""老爸茶"，人均¥30</div>
+    <div class="tl-item"><span class="tl-time">13:30</span>前往海口美兰机场（海口东站旁，地铁/打车约10分钟）</div>
+    <div class="tl-item"><span class="tl-time">15:30</span><b>GS6523</b> 海口→郑州（¥330/人，2h50m）</div>
+    <div class="tl-item"><span class="tl-time">18:20</span>抵达郑州新郑机场，旅程结束</div>
+  </div>
+  <p class="rain">☔ 若下雨：骑楼老街改为<b>海南省博物馆</b>（免费，美兰机场方向顺路）。</p>
+</div>
+
+<div class="card">
+  <h2>④ 美食专题</h2>
+  <table>
+    <tr><th>城市</th><th>必吃</th><th>人均</th><th>口味提示</th></tr>
+    <tr><td>武汉</td><td>热干面、三鲜豆皮、面窝、藕汤、武昌鱼</td><td>¥20–60</td><td>偏重口、芝麻香浓</td></tr>
+    <tr><td>柳州</td><td>螺蛳粉、鸭脚煲、酸嘢、牛杂、糯米饭</td><td>¥15–50</td><td>酸辣臭鲜，第一次点少酸笋</td></tr>
+    <tr><td>贵阳</td><td>丝娃娃、酸汤鱼、烤脑花、肠旺面、冰浆</td><td>¥30–80</td><td>酸辣为主，蘸水灵魂</td></tr>
+    <tr><td>三亚</td><td>椰子鸡、清补凉、海南粉、海鲜加工</td><td>¥30–120</td><td>清甜为主，海鲜先问价再下单</td></tr>
+  </table>
+  <p class="chip warn">⚠️ 海鲜加工防宰：第一市场买海鲜要当场称重、问清加工费（按斤¥10–25不等），保留小票。</p>
+</div>
+
+<div class="card">
+  <h2>⑤ 费用预算</h2>
+  <h3>A. 详细账本（情侣2人，经济档）</h3>
+  <table>
+    <tr><th>分类</th><th>项目</th><th>金额(2人)</th><th>备注</th></tr>
+    <tr><td>交通</td><td>郑州→武汉硬卧</td><td>¥266</td><td>¥133×2</td></tr>
+    <tr><td>交通</td><td>武汉→柳州硬卧</td><td>¥465</td><td>¥232.5×2</td></tr>
+    <tr><td>交通</td><td>柳州→贵阳动车</td><td>¥463</td><td>¥231.5×2</td></tr>
+    <tr><td>交通</td><td>贵阳→三亚机票</td><td>¥1,420</td><td>¥710×2</td></tr>
+    <tr><td>交通</td><td>三亚→海口高铁</td><td>¥200</td><td>⏳待核实</td></tr>
+    <tr><td>交通</td><td>海口→郑州机票</td><td>¥660</td><td>¥330×2</td></tr>
+    <tr><td>交通</td><td>市内交通+打车</td><td>¥400</td><td>地铁/公交为主</td></tr>
+    <tr><td colspan="2"><b>交通小计</b></td><td><b>¥3,874</b></td><td></td></tr>
+    <tr><td>住宿</td><td>7晚快捷酒店</td><td>¥1,400</td><td>人均¥700</td></tr>
+    <tr><td>门票</td><td>黄鹤楼+黄果树+青岩+编钟</td><td>¥820</td><td>人均¥410</td></tr>
+    <tr><td>餐饮</td><td>10天餐饮</td><td>¥1,200</td><td>人均¥600</td></tr>
+    <tr><td>物资</td><td>寄存/雨具/零食</td><td>¥200</td><td></td></tr>
+    <tr><td colspan="2"><b>总计</b></td><td><b>¥7,494</b></td><td>人均 <b>¥3,747</b></td></tr>
+  </table>
+  <h3>B. 花费分布</h3>
+  <div class="bar-row"><span class="bar-label">交通</span><div class="bar-track"><div class="bar" style="width:100%"></div></div><span class="bar-val">¥3,874</span></div>
+  <div class="bar-row"><span class="bar-label">住宿</span><div class="bar-track"><div class="bar" style="width:36%"></div></div><span class="bar-val">¥1,400</span></div>
+  <div class="bar-row"><span class="bar-label">餐饮</span><div class="bar-track"><div class="bar" style="width:31%"></div></div><span class="bar-val">¥1,200</span></div>
+  <div class="bar-row"><span class="bar-label">门票</span><div class="bar-track"><div class="bar" style="width:21%"></div></div><span class="bar-val">¥820</span></div>
+  <div class="bar-row"><span class="bar-label">物资</span><div class="bar-track"><div class="bar" style="width:5%"></div></div><span class="bar-val">¥200</span></div>
+  <h3>C. 三档预算对照</h3>
+  <table>
+    <tr><th>档位</th><th>住宿</th><th>交通</th><th>餐饮</th><th>门票</th><th>人均合计</th></tr>
+    <tr style="background:var(--ok-bg)"><td><b>经济档 ✅当前</b></td><td>快捷¥1,400</td><td>硬卧+特价机票¥3,874</td><td>¥1,200</td><td>¥820</td><td><b>¥3,747</b></td></tr>
+    <tr><td>舒适档</td><td>中端¥3,000</td><td>软卧+正常机票¥5,600</td><td>¥2,000</td><td>¥1,200</td><td><b>¥5,900</b></td></tr>
+    <tr><td>品质档</td><td>高星¥6,000</td><td>一等座+全价机票¥8,000</td><td>¥3,600</td><td>¥1,800</td><td><b>¥9,700</b></td></tr>
+  </table>
+  <p class="sub">💡 以上为预估值；<span class="chip pending">⏳ 标注项</span>请出行前复核。一句话可切换档位，行程不变、只换住宿与交通标准。</p>
+</div>
+
+<div class="card">
+  <h2>⑥ 行前必备清单</h2>
+  <div class="grid2">
+    <div class="sub"><b>证件</b><br>身份证×2、学生证（优惠票）、驾照（如需租车）</div>
+    <div class="sub"><b>电子</b><br>手机、充电宝（≤20000mAh）、数据线、转换头</div>
+    <div class="sub"><b>衣物</b><br>12月武汉/贵阳湿冷（羽绒服+围巾），柳州稍暖，三亚短袖+防晒衣；泳衣</div>
+    <div class="sub"><b>药品</b><br>肠胃药（嗦粉必备）、晕车药、创可贴、防晒霜SPF50+</div>
+    <div class="sub"><b>其他</b><br>雨伞、保温杯、少量现金、行李寄存（武汉/柳州站约¥10/天）</div>
+    <div class="sub"><b>App</b><br>12306、高德地图、美团/大众点评、"安旅通"小程序（黄果树预约）</div>
+  </div>
+</div>
+
+<div class="pitfall">
+  <h2>⑦ 避坑总结（11条）</h2>
+  <p>❌ <b>别在武汉坐"黑轮渡"</b>：只在中华路—武汉关官方码头买票，¥1.5/人。</p>
+  <p>❌ <b>别信黄果树"快速通道"黄牛</b>：水帘洞预约唯一官方渠道"安旅通"，全程免费，第三方有偿代约都是骗局。</p>
+  <p>❌ <b>三亚第一市场买海鲜不被宰</b>：先问价、当场称重、留小票，加工费按斤算清楚再下单。</p>
+  <p>⚠️ 湖北省博<b>周一闭馆</b>、提前5天预约，没约上现场基本进不去。</p>
+  <p>⚠️ 郑州→武汉别选凌晨2点到的车（Z87到02:57、D89到01:24），熬人还多开房。</p>
+  <p>⚠️ 柳州螺蛳粉<b>第一次点微辣少酸笋</b>，否则可能整趟吃不下去。</p>
+  <p>⚠️ 贵阳青云市集、武汉粮道街饭点排队30分钟起，<b>11:30前/13:30后错峰</b>。</p>
+  <p>⚠️ 三亚经济档别住亚龙湾海景房，价格是市区的3倍，不如把钱花在吃上。</p>
+  <p>💡 火车卧铺选<b>中铺</b>：上铺翻身受限、下铺被人借座，中铺最舒服。</p>
+  <p>💡 机票低价在<b>早班和晚班</b>：贵阳→三亚早班¥710 vs 下午¥1,460，差一倍。</p>
+  <p>💡 行李寄存用地铁站周边寄存点（背包¥5/天、行李箱¥10/天），别拖箱逛老街。</p>
+  <p class="sub"><b>反幻觉提示：</b>以上标注 <span class="chip pending">⏳ 待核实</span> 的信息，请在出行前通过 12306 / 航司官方App / 景区官微复核。</p>
+</div>
+
+<div class="card">
+  <h2>⑧ 应急备用方案（Plan B）</h2>
+  <p class="sub">📌 出行前把本页截图离线保存，断网也能看。</p>
+  <div class="emerg"><b>🚨 情景1 · 突发下雨/低温</b><br>⚡ 立刻：查高德实时天气，室内替代<br>🔄 备选：武汉→省博/美术馆；柳州→工业博物馆；贵阳→贵州省博；三亚→免税店/千古情<br>💰 额外：¥0–300（演出另计）<br>📞 求助：酒店前台、当地文旅公众号</div>
+  <div class="emerg"><b>🚨 情景2 · 景点临时闭馆/停演</b><br>⚡ 立刻：查景区官微公告，办理退票<br>🔄 备选：黄果树售罄→龙宫/天龙屯堡；湖北省博闭馆→武汉博物馆<br>💰 额外：退票原路返回，替代点门票¥0–120<br>📞 求助：黄果树 400-800-9998；携程客服</div>
+  <div class="emerg"><b>🚨 情景3 · 误车/航班延误</b><br>⚡ 立刻：12306改签（开车前可改）/航司App查看延误险<br>🔄 备选：郑州→武汉误车→改签下一班高铁（2h，¥244起）；航班延误→次日早班<br>💰 额外：改签费¥0–票价差额<br>📞 求助：12306、航司客服、携程</div>
+  <div class="emerg"><b>🚨 情景4 · 排队爆满/网红店排不上</b><br>⚡ 立刻：美团查看等位实时情况<br>🔄 备选：武汉蔡林记→粮道街任意热干面；柳州西环肥仔→老牌聚宝；贵阳青云市集→二七路小吃街<br>💰 额外：¥0，可能更便宜<br>📞 求助：美团/大众点评在线排队</div>
+  <div class="emerg"><b>🚨 情景5 · 身体不适/中暑/受伤</b><br>⚡ 立刻：就近药店/医院，医保异地就医备案<br>🔄 备选：压缩当日行程，保留核心景点<br>💰 额外：视情况<br>📞 求助：120、当地三甲医院、旅行险客服</div>
+  <div class="emerg"><b>🚨 情景6 · 预订失败/到店无房</b><br>⚡ 立刻：平台客服投诉+取证（截图/通话录音）<br>🔄 备选：同商圈连锁快捷（美团地图找最近房源）<br>💰 额外：差价通常平台承担<br>📞 求助：携程/美团客服、12315</div>
+  <div class="emerg"><b>🚨 情景7 · 手机没电/断网/失联</b><br>⚡ 立刻：借充电宝（街电/怪兽），酒店前台借电话<br>🔄 备选：约好集合点（如江汉关钟楼、五星商圈五角星雕塑）<br>💰 额外：充电宝¥4/小时<br>📞 求助：酒店前台、景区服务台、110</div>
+</div>
+
+<div class="card">
+  <h2>⑨ 导出与分享</h2>
+  <p>🖨 浏览器 Ctrl+P（Mac: ⌘+P）可打印或保存为PDF；截图可分享到社交平台。</p>
+  <h3>📂 本次交付文件清单（4个HTML放同一文件夹）</h3>
+  <table>
+    <tr><th>文件</th><th>内容</th></tr>
+    <tr><td><b>index.html</b></td><td>主攻略（本文，11模块）</td></tr>
+    <tr><td><b>jianghanlu-map.html</b></td><td>武汉江汉路商圈地图（9个地铁口+轮渡码头+厕所/电梯）</td></tr>
+    <tr><td><b>wuxing-map.html</b></td><td>柳州五星商圈地图（路口四角+夜市+公交站）</td></tr>
+    <tr><td><b>penshuichi-map.html</b></td><td>贵阳喷水池商圈地图（10个地铁口+换乘通道）</td></tr>
+  </table>
+  <p class="sub">把这几个HTML放在同一个文件夹，双击 index.html 即可；点文中"🗺 查看平面图"按钮会跳到对应地图页，地图页可点"返回攻略"回来。</p>
+  <p class="foot">生成日期：2026-11-26 · 行策旅游攻略 v2.2 · 数据来源：12306/携程/同程/去哪儿/景区官微/腾讯地图 · 标注 ⏳ 项请出行前复核</p>
+</div>
+
+</div>
+</body>
+</html>

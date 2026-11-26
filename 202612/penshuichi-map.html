@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>贵阳喷水池商圈 · 地铁换乘枢纽平面图</title>
+<style>
+:root{
+  --map-bg:#eaf4fb;--map-road:#fff;--map-block:#dbe7f0;--map-line:#a8c6dc;
+  --route:#2563eb;--danger:#dc2626;--landmark:#f5e6b8;--text:#1f2937;--muted:#64748b;
+  --line:#e2e8f0;--card:#fff;--shadow:0 1px 3px rgba(0,0,0,.08),0 8px 24px rgba(0,0,0,.06);
+}
+*{box-sizing:border-box}
+body{margin:0;background:#f3f4f6;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6}
+.wrap{max-width:768px;margin:0 auto;padding:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:16px;margin-bottom:14px}
+.hd{background:linear-gradient(135deg,#0e7490,#0891b2);color:#fff;border-radius:14px;padding:20px;margin-bottom:14px;position:relative;overflow:hidden}
+.hd:after{content:"";position:absolute;right:-30px;top:-30px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.12)}
+.hd h1{margin:0 0 6px;font-size:20px;position:relative;z-index:1}
+.hd p{margin:0;font-size:13px;opacity:.95;position:relative;z-index:1}
+h2{font-size:16px;margin:0 0 12px;padding-left:9px;border-left:4px solid #0891b2}
+.back{display:inline-block;color:#0e7490;text-decoration:none;font-weight:600;font-size:13px;margin-bottom:10px}
+.mapbox{background:var(--map-bg);border:2px solid #b9d4e8;border-radius:12px;position:relative;overflow:hidden;height:540px;font-size:11px}
+.road{position:absolute;background:var(--map-road);border:1px solid var(--map-line);display:flex;align-items:center;justify-content:center;color:#64748b;font-size:10px}
+.block{position:absolute;background:var(--map-block);border:1px solid #c3d6e4;border-radius:4px;display:flex;align-items:center;justify-content:center;text-align:center;color:#475569;padding:2px;font-size:10px}
+.landmark{position:absolute;background:var(--landmark);border:1px solid #d9c37e;border-radius:4px;display:flex;align-items:center;justify-content:center;text-align:center;color:#78590d;font-weight:600;padding:2px;font-size:10px}
+.metro{position:absolute;width:23px;height:23px;border-radius:50%;background:#fff;border:3px solid #1d4ed8;color:#1d4ed8;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.15);z-index:6}
+.metro.orange{border-color:#ea580c;color:#ea580c}
+.tag{position:absolute;background:#fff;border:1px solid #cbd5e1;border-radius:5px;padding:2px 5px;color:#334155;font-size:10px;white-space:nowrap;z-index:5;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.tag.hl{background:#0d9488;color:#fff;border-color:#0d9488;font-weight:600}
+.tag.red{background:#fef2f2;color:#b91c1c;border-color:#fca5a5}
+.route-line{position:absolute;border:3px dashed var(--route);border-radius:8px;z-index:7;pointer-events:none}
+.danger-line{position:absolute;border:2px dashed var(--danger);z-index:7;pointer-events:none}
+.axis{position:absolute;opacity:.35;z-index:1}
+.axis.line1{background:repeating-linear-gradient(90deg,#1d4ed8 0 8px,transparent 8px 14px)}
+.axis.line2{background:repeating-linear-gradient(0deg,#ea580c 0 8px,transparent 8px 14px)}
+.compass{position:absolute;right:10px;top:10px;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.88);border:1px solid #cbd5e1;display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:9px;z-index:8;color:#1e293b}
+.compass b{font-size:15px;color:#dc2626;line-height:1}
+.scale{position:absolute;left:10px;bottom:10px;background:rgba(255,255,255,.9);border:1px solid #cbd5e1;border-radius:5px;padding:3px 7px;font-size:10px;z-index:8;color:#334155}
+.scale i{display:inline-block;width:44px;height:6px;border-left:2px solid #334155;border-right:2px solid #334155;border-bottom:2px solid #334155;vertical-align:middle;margin-right:4px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:11px;color:var(--muted);margin-top:10px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:middle;margin-right:4px}
+table{width:100%;border-collapse:collapse;font-size:11px;margin:8px 0}
+th,td{border:1px solid var(--line);padding:6px;text-align:left;vertical-align:top}
+th{background:#f1f5f9;font-weight:600}
+.chip{display:inline-block;border-radius:5px;padding:1px 7px;font-size:11px;font-weight:600}
+.ok{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0}
+.warn{background:#fffbeb;color:#b45309;border:1px solid #fde68a}
+.info{background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe}
+.danger{background:#fef2f2;color:#dc2626;border:1px solid #fecaca}
+.sub{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:8px;padding:10px;font-size:12px;margin-top:8px}
+.foot{text-align:center;color:#64748b;font-size:11px;padding:12px}
+@media(max-width:640px){.mapbox{height:500px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<a class="back" href="index.html">← 返回攻略</a>
+<div class="hd">
+  <h1>🗺 贵阳喷水池商圈 · 地铁换乘枢纽平面图</h1>
+  <p>蓝白地图风 · 1号线×2号线换乘 · 10个出口全标注（A–H、J、K）</p>
+</div>
+
+<div class="card">
+  <h2>① 商圈总平面图（地面街区层）</h2>
+  <div class="mapbox">
+    <!-- 地下线路示意轴（低透明度虚线） -->
+    <div class="axis line1" style="left:46%;top:0;width:14px;height:100%"></div>
+    <div class="axis line2" style="left:0;top:48%;width:100%;height:14px"></div>
+    <span class="tag" style="left:49%;top:16px;opacity:.7;z-index:2">1号线（地下·南北向）</span>
+    <span class="tag" style="left:2%;top:51%;opacity:.7;z-index:2">2号线（地下·东西向）</span>
+
+    <!-- 道路：人民大道北段（南北向） -->
+    <div class="road" style="left:46%;top:0;width:34px;height:100%;writing-mode:vertical-rl;letter-spacing:6px;opacity:.92">人民大道北段</div>
+    <!-- 道路：延安中路（东西向） -->
+    <div class="road" style="left:0;top:48%;width:100%;height:30px">延安中路</div>
+    <!-- 道路：中华路 -->
+    <div class="road" style="left:74%;top:0;width:26px;height:100%;writing-mode:vertical-rl;letter-spacing:5px;opacity:.9">中华北路/中华中路</div>
+    <!-- 建筑 -->
+    <div class="landmark" style="left:4%;top:8%;width:36%;height:16%">黔灵西路<br>贵阳五中</div>
+    <div class="block" style="left:56%;top:8%;width:16%;height:16%">龙泉巷<br>龙井小学</div>
+    <div class="landmark" style="left:78%;top:8%;width:20%;height:16%">城基路<br>省林业局</div>
+    <div class="landmark" style="left:4%;top:30%;width:36%;height:13%">喷水池<br>（地标环岛）</div>
+    <div class="block" style="left:56%;top:30%;width:16%;height:13%">清真寺<br>夏状元街</div>
+    <div class="landmark" style="left:78%;top:30%;width:20%;height:13%">国贸广场<br>景天城</div>
+    <div class="block" style="left:4%;top:62%;width:36%;height:14%">云岩区少年宫<br>省商务厅</div>
+    <div class="landmark" style="left:56%;top:62%;width:16%;height:14%">南国花锦<br>百盛</div>
+    <div class="landmark" style="left:78%;top:62%;width:20%;height:14%">飞山街<br>恒丰步行街</div>
+    <div class="block" style="left:4%;top:82%;width:90%;height:12%">中华路商圈：大十字·贵阳壹号·智诚百货（沿中华路向南）</div>
+
+    <!-- 地铁站主体 -->
+    <div class="tag hl" style="left:38%;top:43%;z-index:7">⊗ 喷水池站（1/2号线换乘·80米通道）</div>
+
+    <!-- 10个出口：1号线 A-D（蓝），2号线 E-H J K（橙） -->
+    <div class="metro" style="left:38%;top:20%">A</div>
+    <div class="metro" style="left:52%;top:20%">B</div>
+    <div class="metro" style="left:38%;top:33%">C</div>
+    <div class="metro" style="left:52%;top:33%">D</div>
+    <div class="metro orange" style="left:38%;top:62%">E</div>
+    <div class="metro orange" style="left:52%;top:62%">F</div>
+    <div class="metro orange" style="left:38%;top:76%">G</div>
+    <div class="metro orange" style="left:52%;top:76%">H</div>
+    <div class="metro orange" style="left:66%;top:33%">J</div>
+    <div class="metro orange" style="left:66%;top:62%">K</div>
+
+    <!-- 设施标签 -->
+    <span class="tag red" style="left:2%;top:38%">🚻站厅卫生间·母婴室</span>
+    <span class="tag" style="left:66%;top:55%">🛗换乘通道扶梯/直梯</span>
+
+    <!-- 推荐路径：J口→国贸→喷水池→H口 -->
+    <div class="route-line" style="left:62%;top:37%;width:4px;height:22%"></div>
+    <span class="tag hl" style="left:60%;top:24%">🧭 推荐：J口→国贸→喷水池→H口商圈</span>
+
+    <!-- 雷区 -->
+    <div class="danger-line" style="left:0;top:44%;width:100%;height:2px"></div>
+    <span class="tag red" style="left:2%;top:45%">⚠ 延安中路车流密，走地下通道过街</span>
+
+    <div class="compass"><b>↑</b>N</div>
+    <div class="scale"><i></i>约200m</div>
+  </div>
+  <div class="legend">
+    <span><i style="background:#dbe7f0;border:1px solid #a8c6dc"></i>建筑</span>
+    <span><i style="background:#f5e6b8;border:1px solid #d9c37e"></i>地标</span>
+    <span><i style="background:#1d4ed8"></i>🔵1号线出口</span>
+    <span><i style="background:#ea580c"></i>🟠2号线出口</span>
+    <span><i style="background:#2563eb"></i>🧭推荐路径</span>
+    <span><i style="background:#dc2626"></i>⚠雷区</span>
+  </div>
+</div>
+
+<div class="card">
+  <h2>② 10个出口速查（一个不漏）</h2>
+  <table>
+    <tr><th>出口</th><th>线路</th><th>位置与建议目的地</th></tr>
+    <tr><td><b>A</b></td><td>🔵1号线</td><td>人民大道北段、黔灵西路、城基路、贵阳五中</td></tr>
+    <tr><td><b>B</b></td><td>🔵1号线</td><td>人民大道北段、龙泉巷（福田巷、城基路、紫林庵方向）</td></tr>
+    <tr><td><b>C</b></td><td>🔵1号线</td><td>龙井小学、夏状元街、清真寺、<b>喷水池地标</b>、国贸广场、景天城</td></tr>
+    <tr><td><b>D</b></td><td>🔵1号线</td><td>黔灵西路、中华北路、贵阳七中（中北校区）、贵阳基督教堂</td></tr>
+    <tr><td><b>E</b></td><td>🟠2号线</td><td>延安中路、嘉禾路、城基路、贵州省林业局</td></tr>
+    <tr><td><b>F</b></td><td>🟠2号线</td><td>云岩区少年宫、省商务厅、省农业农村厅、金沙街</td></tr>
+    <tr><td><b>G</b></td><td>🟠2号线</td><td>人民大道北段、省人社厅、省广电局、<b>飞山街/恒丰步行街</b></td></tr>
+    <tr><td><b>H</b></td><td>🟠2号线</td><td>中华中路、延安东路、沙井街、<b>南国花锦/百盛/美食广场</b></td></tr>
+    <tr><td><b>J</b></td><td>🟠2号线</td><td>中华北路、延安东路、<b>国贸购物广场</b>、贵州书城 <span class="chip info">✨本行程推荐口</span></td></tr>
+    <tr><td><b>K</b></td><td>🟠2号线</td><td>人民大道北段、延安中路、景天城</td></tr>
+  </table>
+  <p class="sub">🚻 <b>厕所/母婴室</b>：站厅内设公共卫生间与母婴室（配洗手液），<span class="chip ok">🔎已核实</span>。<br>🛗 <b>电梯</b>：1号线与2号线站厅间80米换乘通道设扶梯与直梯；H口有无障碍电梯。<br>⏱ <b>建议停留</b>：1.5小时（喷水池地标20分钟+国贸/南国花锦40分钟+青云市集晚饭）。</p>
+</div>
+
+<div class="card">
+  <h2>③ 换乘与过街速查卡</h2>
+  <p>① <b>怎么换乘</b>：1号线↔2号线走约80米换乘通道，跟随导向牌，不用出站。<br>
+  ② <b>从哪个口出</b>：逛商圈选 <b>J口（国贸）或H口（南国花锦）</b>；看喷水池地标选 C口；前往省博/观山湖方向选1号线。<br>
+  ③ <b>怎么过街</b>：延安中路车流大，走喷水池环形地下通道可直接进站厅，别在地面硬穿。<br>
+  ④ <b>四角各有什么</b>：西北黔灵西路/五中，东北龙泉巷/林业局，西南飞山街/省政务，东南中华路商圈/国贸。<br>
+  ⑤ <b>公交换乘</b>：黔灵西路口有39/55/63/71/301路，喷水池轨道站有249路（⏳以贵阳公交为准）。</p>
+  <p class="chip danger">⚠ 晚高峰（17:30–19:00）喷水池环岛周边拥堵，打车建议在中华北路/延安中路路口上下车，别卡在环岛里。</p>
+</div>
+
+<p class="foot">行策 v2.2 · 数据来源：贵阳轨道官网、百度百科喷水池站、人民日报2号线商圈攻略、多彩贵州网 · 示意图非测绘比例 · ⏳项出行前复核</p>
+</div>
+</body>
+</html>
