@@ -119,8 +119,8 @@ function initWeather() {
         try {
             weatherEl.textContent = await fetchWeather(adcode);
         } catch (e) {
+            // 获取失败：保留页面上的默认天气文案
             console.log('天气获取失败:', e.message || e);
-            weatherEl.textContent = '';
         }
     })();
 }
